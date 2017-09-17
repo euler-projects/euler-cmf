@@ -1,0 +1,13 @@
+target
+
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+
+#Eclipse
+.project
+.classpath
+.settings
+
+#IDEA
+.idea/
+*.iml

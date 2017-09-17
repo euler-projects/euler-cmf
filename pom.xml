@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>net.eulerframework</groupId>
+        <artifactId>euler-parent</artifactId>
+        <version>2-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+    
+    <artifactId>euler-web-cmf</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Euler Cmf</name>
+    <url>https://eulerproject.io</url>
+    <description>A Content Management Framework Based on Euler Framework</description>
+
+    <properties>
+        <jdk.version>1.8</jdk.version>
+        <eulerframework.version>2.0.0-SNAPSHOT</eulerframework.version>
+    </properties>
+     
+    <dependencies>
+        <dependency>
+            <groupId>net.eulerframework</groupId>
+            <artifactId>euler-web-core</artifactId>
+            <version>${eulerframework.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <scm>
+        <connection>scm:git:https://github.com/euler-projects/euler-cmf.git</connection>
+        <developerConnection>scm:git:git@github.com:euler-projects/euler-cmf.git</developerConnection>
+        <url>https://github.com/euler-projects/euler-cmf</url>
+    </scm>
+
+</project>
