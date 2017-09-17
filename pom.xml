@@ -26,6 +26,11 @@
             <artifactId>euler-web-core</artifactId>
             <version>${eulerframework.version}</version>
         </dependency>
+        <dependency>
+            <groupId>net.eulerframework</groupId>
+            <artifactId>euler-web-basic-hibernate</artifactId>
+            <version>${eulerframework.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
