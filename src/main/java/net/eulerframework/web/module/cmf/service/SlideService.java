@@ -27,32 +27,41 @@
  * https://github.com/euler-form/web-form
  * https://cfrost.net
  */
-package net.eulerframework.web.module.cmf.controller.admin;
+package net.eulerframework.web.module.cmf.service;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import javax.annotation.Resource;
 
-import net.eulerframework.web.core.annotation.JspController;
-import net.eulerframework.web.core.base.controller.JspSupportWebController;
+import org.springframework.stereotype.Service;
+
+import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
+import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
+import net.eulerframework.web.core.base.service.impl.BaseService;
+import net.eulerframework.web.module.cmf.dao.SlideTypeDao;
+import net.eulerframework.web.module.cmf.entity.SlideType;
 
 /**
  * @author cFrost
  *
  */
-@JspController
-@RequestMapping("cmf/slide")
-public class SlideManageJspController extends JspSupportWebController {
+@Service
+public class SlideService extends BaseService {
+    
+    @Resource SlideTypeDao slideTypeDao;
 
-    public SlideManageJspController() {
-        this.setWebControllerName("cmf/slide");
+    /**
+     * 新建图片类型
+     * @param slideType 图片类型实体类
+     */
+    public void saveSlideType(SlideType slideType) {
+        this.slideTypeDao.saveOrUpdate(slideType);
     }
-    
-    @RequestMapping("slideManage")
-    public String slideManage() {
-        return this.display("slideManage");
+
+    /**
+     * @param easyUiQueryReqeuset
+     * @return
+     */
+    public EasyUIPageResponse<SlideType> findSlideTypeByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
+        return this.slideTypeDao.pageQuery(easyUiQueryReqeuset);
     }
-    
-    @RequestMapping("slideTypeManage")
-    public String slideTypeManage() {
-        return this.display("slideTypeManage");
-    }
+
 }

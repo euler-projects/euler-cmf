@@ -49,6 +49,10 @@ public class SlideType extends NonIDEntity<SlideType, String> {
     private String type;
     @Column(name = "NAME", nullable = false)
     private String name;
+    @Column(name = "DESCRIPTION", nullable = true, length = 1000)
+    private String description;
+    @Column(name = "ENABLED", nullable = false)
+    private Boolean enabled;
 
     public String getType() {
         return type;
@@ -64,6 +68,22 @@ public class SlideType extends NonIDEntity<SlideType, String> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

@@ -27,32 +27,15 @@
  * https://github.com/euler-form/web-form
  * https://cfrost.net
  */
-package net.eulerframework.web.module.cmf.controller.admin;
+package net.eulerframework.web.module.cmf.dao;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import net.eulerframework.web.core.annotation.JspController;
-import net.eulerframework.web.core.base.controller.JspSupportWebController;
+import net.eulerframework.web.core.base.dao.impl.hibernate5.BaseDao;
+import net.eulerframework.web.module.cmf.entity.SlideType;
 
 /**
  * @author cFrost
  *
  */
-@JspController
-@RequestMapping("cmf/slide")
-public class SlideManageJspController extends JspSupportWebController {
+public class SlideTypeDao extends BaseDao<SlideType> {
 
-    public SlideManageJspController() {
-        this.setWebControllerName("cmf/slide");
-    }
-    
-    @RequestMapping("slideManage")
-    public String slideManage() {
-        return this.display("slideManage");
-    }
-    
-    @RequestMapping("slideTypeManage")
-    public String slideTypeManage() {
-        return this.display("slideTypeManage");
-    }
 }

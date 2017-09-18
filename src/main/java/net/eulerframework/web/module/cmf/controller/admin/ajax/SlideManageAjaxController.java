@@ -27,32 +27,37 @@
  * https://github.com/euler-form/web-form
  * https://cfrost.net
  */
-package net.eulerframework.web.module.cmf.controller.admin;
+package net.eulerframework.web.module.cmf.controller.admin.ajax;
+
+import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import net.eulerframework.web.core.annotation.JspController;
-import net.eulerframework.web.core.base.controller.JspSupportWebController;
+import net.eulerframework.web.core.annotation.AjaxController;
+import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
+import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
+import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
+import net.eulerframework.web.module.cmf.entity.SlideType;
+import net.eulerframework.web.module.cmf.service.SlideService;
 
 /**
  * @author cFrost
  *
  */
-@JspController
+@AjaxController
 @RequestMapping("cmf/slide")
-public class SlideManageJspController extends JspSupportWebController {
+public class SlideManageAjaxController extends AjaxSupportWebController {
+    
+    @Resource SlideService slideService;
 
-    public SlideManageJspController() {
-        this.setWebControllerName("cmf/slide");
+    @RequestMapping(path = "findSlideTypeByPage")
+    public EasyUIPageResponse<SlideType> findSlideTypeByPage(){
+        return this.slideService.findSlideTypeByPage(new EasyUiQueryReqeuset(this.getRequest()));
     }
     
-    @RequestMapping("slideManage")
-    public String slideManage() {
-        return this.display("slideManage");
-    }
-    
-    @RequestMapping("slideTypeManage")
-    public String slideTypeManage() {
-        return this.display("slideTypeManage");
+    @RequestMapping(path = "saveSlideType", method = RequestMethod.POST)
+    public void saveSlideType(SlideType slideType) {
+        this.slideService.saveSlideType(slideType);
     }
 }
