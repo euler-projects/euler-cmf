@@ -33,6 +33,7 @@ import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import net.eulerframework.web.core.annotation.AjaxController;
 import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
@@ -59,5 +60,10 @@ public class SlideManageAjaxController extends AjaxSupportWebController {
     @RequestMapping(path = "saveSlideType", method = RequestMethod.POST)
     public void saveSlideType(SlideType slideType) {
         this.slideService.saveSlideType(slideType);
+    }
+    
+    @RequestMapping(path = "deleteSlideTypes", method = RequestMethod.POST)
+    public void deleteSlideTypes(@RequestParam String[] slideTypes) {
+        this.slideService.deleteSlideTypes(slideTypes);
     }
 }

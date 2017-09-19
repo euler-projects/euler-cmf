@@ -57,11 +57,20 @@ public class SlideService extends BaseService {
     }
 
     /**
-     * @param easyUiQueryReqeuset
-     * @return
+     * 分页查询图片类型
+     * @param easyUiQueryReqeuset 分页请求
+     * @return 分页响应
      */
     public EasyUIPageResponse<SlideType> findSlideTypeByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
         return this.slideTypeDao.pageQuery(easyUiQueryReqeuset);
+    }
+
+    /**
+     * 删除图片类型
+     * @param slideTypes 图片类型标识
+     */
+    public void deleteSlideTypes(String... slideTypes) {
+        this.slideTypeDao.deleteByIds(slideTypes);
     }
 
 }
