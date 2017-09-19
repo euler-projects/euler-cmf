@@ -29,6 +29,8 @@
  */
 package net.eulerframework.web.module.cmf.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -71,6 +73,16 @@ public class SlideService extends BaseService {
      */
     public void deleteSlideTypes(String... slideTypes) {
         this.slideTypeDao.deleteByIds(slideTypes);
+    }
+
+    /**
+     * 查询所有已生效的图片类型
+     * @return 图片类型
+     */
+    public List<SlideType> findAllSlideTypes() {
+        SlideType tmp = new SlideType();
+        tmp.setEnabled(true);
+        return this.slideTypeDao.queryByEntity(tmp);
     }
 
 }

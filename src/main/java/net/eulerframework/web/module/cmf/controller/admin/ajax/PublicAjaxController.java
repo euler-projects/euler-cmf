@@ -29,48 +29,50 @@
  */
 package net.eulerframework.web.module.cmf.controller.admin.ajax;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.annotation.Resource;
+import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import net.eulerframework.web.core.annotation.AjaxController;
 import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
-import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
-import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
-import net.eulerframework.web.module.cmf.entity.SlideType;
-import net.eulerframework.web.module.cmf.service.SlideService;
+import net.eulerframework.web.module.cmf.config.CmfConfig;
 
 /**
  * @author cFrost
  *
  */
 @AjaxController
-@RequestMapping("cmf/slide")
-public class SlideManageAjaxController extends AjaxSupportWebController {
+@RequestMapping("cmf/public")
+public class PublicAjaxController extends AjaxSupportWebController {
     
-    @Resource SlideService slideService;
-    
-    @RequestMapping(path = "findAllSlideTypes", method = RequestMethod.GET)
-    public List<SlideType> findAllSlideTypes() {
-        return this.slideService.findAllSlideTypes();
-    }
-
-    @RequestMapping(path = "findSlideTypeByPage")
-    public EasyUIPageResponse<SlideType> findSlideTypeByPage(){
-        return this.slideService.findSlideTypeByPage(new EasyUiQueryReqeuset(this.getRequest()));
+    @RequestMapping(path = "findAllSupportLanguages", method = RequestMethod.GET)
+    public Locale[] findAllSupportLanguages() {
+        return CmfConfig.getSupportLanguages();
     }
     
-    @RequestMapping(path = "saveSlideType", method = RequestMethod.POST)
-    public void saveSlideType(SlideType slideType) {
-        this.slideService.saveSlideType(slideType);
-    }
-    
-    @RequestMapping(path = "deleteSlideTypes", method = RequestMethod.POST)
-    public void deleteSlideTypes(@RequestParam String[] slideTypes) {
-        this.slideService.deleteSlideTypes(slideTypes);
+    @RequestMapping(path = "findAllSupportLanguagesKV", method = RequestMethod.GET)
+    public List<Map<String, String>> findAllSupportLanguagesKV(boolean addAll) {
+        List<Map<String, String>> ret = new ArrayList<>();
+        Locale[] locales = CmfConfig.getSupportLanguages();
+        
+        if(addAll) {
+            Map<String, String> map = new HashMap<>();
+            map.put("key", "");
+            map.put("value", "All");
+            ret.add(map);
+        }
+        
+        for(Locale locale : locales) {
+            Map<String, String> map = new HashMap<>();
+            map.put("key", locale.toString());
+            map.put("value", locale.toString());
+            ret.add(map);
+        }
+        
+        return ret;
     }
 }
