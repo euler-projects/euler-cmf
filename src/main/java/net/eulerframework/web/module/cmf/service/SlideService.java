@@ -38,6 +38,7 @@ import javax.annotation.Resource;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -100,7 +101,7 @@ public class SlideService extends BaseService {
      */
     public void saveSlide(Slide slide) {
         if(!StringUtils.hasText(slide.getId())) {
-            List<Slide> slideInDescByOrder = this.slideDao.findSlideInDescByOrder(slide.getType());
+            List<Slide> slideInDescByOrder = this.slideDao.findSlideByOrder(slide.getType(), true);
             if(CollectionUtils.isEmpty(slideInDescByOrder)) {
                 slide.setOrder(0);
             } else {
@@ -136,6 +137,31 @@ public class SlideService extends BaseService {
     public void deleteSlides(String... id) {
         this.slideDao.deleteByIds(id);
         
+    }
+
+    /**
+     * @param slideIds
+     * @param slideOrders
+     */
+    public void sortSlidesRWT(String[] slideIds, int[] slideOrders) {
+        Assert.notEmpty(slideIds, "slideIds is empty");
+        Assert.notNull(slideOrders, "slideIds is empty");
+        Assert.isTrue(slideIds.length == slideOrders.length, "slideIds and slideOrders must have save elements");
+        
+        for(int i = 0; i < slideIds.length; i++) {
+            Slide slide = this.slideDao.load(slideIds[i]);
+            slide.setOrder(slideOrders[i]);
+            this.slideDao.update(slide);
+        }
+    }
+
+    /**
+     * @param type
+     * @return
+     */
+    public List<Slide> findSlidesByType(String type) {
+        Assert.hasText(type, "Slide type can not be empty");
+        return this.slideDao.findSlideByOrder(type, false);
     }
 
 }

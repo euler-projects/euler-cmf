@@ -27,39 +27,32 @@
  * https://github.com/euler-form/web-form
  * https://cfrost.net
  */
-package net.eulerframework.web.module.cmf.dao;
+package net.eulerframework.web.module.cmf.controller.api;
 
 import java.util.List;
 
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.util.Assert;
+import javax.annotation.Resource;
 
-import net.eulerframework.web.core.base.dao.impl.hibernate5.BaseDao;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import net.eulerframework.web.core.annotation.ApiEndpoint;
+import net.eulerframework.web.core.base.controller.AbstractApiEndpoint;
 import net.eulerframework.web.module.cmf.entity.Slide;
+import net.eulerframework.web.module.cmf.service.SlideService;
 
 /**
  * @author cFrost
  *
  */
-public class SlideDao extends BaseDao<Slide> {
-
-    /**
-     * @param type
-     * @param desc <code>true</code> 倒序查出 <code>false</code> 正序查出
-     * @return
-     */
-    public List<Slide> findSlideByOrder(String type, boolean desc) {
-        Assert.hasText(type, "Type is null");
-        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(this.entityClass);
-        detachedCriteria.add(Restrictions.eq("type", type));
-        if(desc) {
-            detachedCriteria.addOrder(Order.desc("order"));            
-        } else {
-            detachedCriteria.addOrder(Order.asc("order"));  
-        }
-        return this.query(detachedCriteria);
+@ApiEndpoint
+@RequestMapping("cms/slide")
+public class SlideApiEndpoint extends AbstractApiEndpoint {
+    
+    @Resource private SlideService slideService;
+    
+    @RequestMapping("type/{type}")
+    public List<Slide> findSlidesByType(@PathVariable("type") String type) {
+        return this.slideService.findSlidesByType(type);
     }
-
 }

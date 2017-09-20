@@ -70,6 +70,11 @@ public class SlideManageAjaxController extends AjaxSupportWebController {
         this.slideService.deleteSlides(slideIds);
     }
     
+    @RequestMapping(path = "sortSlides", method = RequestMethod.POST)
+    public void sortSlides(@RequestParam String[] slideIds, @RequestParam int[] slideOrders) {
+        this.slideService.sortSlidesRWT(slideIds, slideOrders);
+    }
+    
     @RequestMapping(path = "findAllSlideTypes", method = RequestMethod.GET)
     public List<SlideType> findAllSlideTypes() {
         return this.slideService.findAllSlideTypes();
