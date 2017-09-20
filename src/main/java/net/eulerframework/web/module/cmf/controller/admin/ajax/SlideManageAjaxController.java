@@ -41,6 +41,7 @@ import net.eulerframework.web.core.annotation.AjaxController;
 import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
 import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
+import net.eulerframework.web.module.cmf.entity.Slide;
 import net.eulerframework.web.module.cmf.entity.SlideType;
 import net.eulerframework.web.module.cmf.service.SlideService;
 
@@ -53,6 +54,21 @@ import net.eulerframework.web.module.cmf.service.SlideService;
 public class SlideManageAjaxController extends AjaxSupportWebController {
     
     @Resource SlideService slideService;
+    
+    @RequestMapping(path = "saveSlide", method = RequestMethod.POST)
+    public void saveSlideType(Slide slide) {
+        this.slideService.saveSlide(slide);
+    }
+
+    @RequestMapping(path = "findSlideByPage")
+    public EasyUIPageResponse<Slide> findSlideByPage(){
+        return this.slideService.findSlideByPage(new EasyUiQueryReqeuset(this.getRequest()));
+    }
+    
+    @RequestMapping(path = "deleteSlides", method = RequestMethod.POST)
+    public void deleteSlides(@RequestParam String[] slideIds) {
+        this.slideService.deleteSlides(slideIds);
+    }
     
     @RequestMapping(path = "findAllSlideTypes", method = RequestMethod.GET)
     public List<SlideType> findAllSlideTypes() {

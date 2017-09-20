@@ -29,16 +29,24 @@
  */
 package net.eulerframework.web.module.cmf.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.Resource;
 
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
 import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
 import net.eulerframework.web.core.base.service.impl.BaseService;
+import net.eulerframework.web.module.cmf.dao.SlideDao;
 import net.eulerframework.web.module.cmf.dao.SlideTypeDao;
+import net.eulerframework.web.module.cmf.entity.Slide;
 import net.eulerframework.web.module.cmf.entity.SlideType;
 
 /**
@@ -83,6 +91,51 @@ public class SlideService extends BaseService {
         SlideType tmp = new SlideType();
         tmp.setEnabled(true);
         return this.slideTypeDao.queryByEntity(tmp);
+    }
+    
+    @Resource SlideDao slideDao;
+
+    /**
+     * @param slide
+     */
+    public void saveSlide(Slide slide) {
+        if(!StringUtils.hasText(slide.getId())) {
+            List<Slide> slideInDescByOrder = this.slideDao.findSlideInDescByOrder(slide.getType());
+            if(CollectionUtils.isEmpty(slideInDescByOrder)) {
+                slide.setOrder(0);
+            } else {
+                slide.setOrder(slideInDescByOrder.get(0).getOrder() + 1);
+            }
+        }
+        this.slideDao.saveOrUpdate(slide);
+    }
+
+    /**
+     * @param easyUiQueryReqeuset
+     * @return
+     */
+    public EasyUIPageResponse<Slide> findSlideByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
+        List<Criterion> criterions = new ArrayList<>();
+        
+        String type = easyUiQueryReqeuset.getFilterValue("type");
+        if(StringUtils.hasText(type)) {
+            criterions.add(Restrictions.eq("type", type));
+        }
+        
+        String locale = easyUiQueryReqeuset.getFilterValue("locale");
+        if(StringUtils.hasText(locale)) {
+            criterions.add(Restrictions.eq("locale", new Locale(locale)));
+        }
+        
+        return this.slideDao.pageQuery(easyUiQueryReqeuset, criterions);
+    }
+
+    /**
+     * @param ids
+     */
+    public void deleteSlides(String... id) {
+        this.slideDao.deleteByIds(id);
+        
     }
 
 }

@@ -16,4 +16,7 @@
     <bean id="slideTypeDao" class="net.eulerframework.web.module.cmf.dao.SlideTypeDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="slideDao" class="net.eulerframework.web.module.cmf.dao.SlideDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

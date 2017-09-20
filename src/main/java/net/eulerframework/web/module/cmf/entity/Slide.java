@@ -29,6 +29,8 @@
  */
 package net.eulerframework.web.module.cmf.entity;
 
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -45,15 +47,69 @@ public class Slide extends UUIDEntity<Slide> {
 
     @Column(name = "TYPE", nullable = false)
     private String type;
-    @Column(name = "NAME")
-    private String name;
-    @Column(name = "CONTENT")
-    private String content;
-    @Column(name = "URI")
-    private String uri;
+    @Column(name = "LOCALE", nullable = false)
+    private Locale locale;
+    @Column(name = "title", nullable = true)
+    private String title;
     @Column(name = "FILE_ID", nullable = false)
     private String fileId;
+    @Column(name = "URI", nullable = true)
+    private String uri;
+    @Column(name = "DESCRIPTION", nullable = true, length = 1000)
+    private String description;
+    @Column(name = "CONTENT", nullable = true, length = 1000)
+    private String content;
     @Column(name = "SHOW_ORDER", nullable = false)
     private Integer order;
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+    public Locale getLocale() {
+        return locale;
+    }
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public String getFileId() {
+        return fileId;
+    }
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+    public String getUri() {
+        return uri;
+    }
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public String getContent() {
+        return content;
+    }
+    public void setContent(String content) {
+        this.content = content;
+    }
+    public Integer getOrder() {
+        return order;
+    }
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+    
+    
 
 }
