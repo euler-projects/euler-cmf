@@ -24,8 +24,8 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
             <version>3.0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.eulerframework</groupId>
@@ -36,6 +36,12 @@
             <groupId>net.eulerframework</groupId>
             <artifactId>euler-web-basic-hibernate</artifactId>
             <version>${eulerframework.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>net.eulerframework</groupId>
+            <artifactId>euler-web-ueditor</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
