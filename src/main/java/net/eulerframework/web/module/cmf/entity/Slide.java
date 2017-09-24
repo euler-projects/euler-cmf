@@ -36,6 +36,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import net.eulerframework.web.core.base.entity.UUIDEntity;
+import net.eulerframework.web.module.file.conf.FileConfig;
+import net.eulerframework.web.util.ServletUtils;
 
 /**
  * @author cFrost
@@ -109,7 +111,21 @@ public class Slide extends UUIDEntity<Slide> {
     public void setOrder(Integer order) {
         this.order = order;
     }
+
     
+    /**
+     * 图片相对于WEB根目录的路径，包含ContextPath，以/开头
+     * 
+     * <p>eg.
+     * <pre class="code">
+     * ContextPath = "/demo", imagePath = "/demo/image/xxxxxxxxxxxx"
+     * ContextPath = "", imagePath = "/image/xxxxxxxxxxxx"
+     * </pre>
+     */
+    public String getImagePath() {
+        return ServletUtils.getServletContext().getAttribute(FileConfig.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
+                + this.fileId;
+    }
     
 
 }
