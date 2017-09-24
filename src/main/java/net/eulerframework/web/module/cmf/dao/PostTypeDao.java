@@ -27,32 +27,15 @@
  * https://github.com/euler-form/web-form
  * https://cfrost.net
  */
-package net.eulerframework.web.module.cmf.controller.admin;
+package net.eulerframework.web.module.cmf.dao;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import net.eulerframework.web.core.annotation.JspController;
-import net.eulerframework.web.core.base.controller.JspSupportWebController;
+import net.eulerframework.web.core.base.dao.impl.hibernate5.BaseDao;
+import net.eulerframework.web.module.cmf.entity.PostType;
 
 /**
  * @author cFrost
  *
  */
-@JspController
-@RequestMapping("cmf/post")
-public class PostManageJspController extends JspSupportWebController {
+public class PostTypeDao extends BaseDao<PostType> {
 
-    public PostManageJspController() {
-        this.setWebControllerName("cmf/post");
-    }
-    
-    @RequestMapping("postManage")
-    public String postManage() {
-        return this.display("postManage");
-    }
-    
-    @RequestMapping("postTypeManage")
-    public String postTypeManage() {
-        return this.display("postTypeManage");
-    }
 }

@@ -19,4 +19,11 @@
     <bean id="slideDao" class="net.eulerframework.web.module.cmf.dao.SlideDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    <bean id="postTypeDao" class="net.eulerframework.web.module.cmf.dao.PostTypeDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="postDao" class="net.eulerframework.web.module.cmf.dao.PostDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

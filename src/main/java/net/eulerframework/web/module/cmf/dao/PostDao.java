@@ -27,32 +27,46 @@
  * https://github.com/euler-form/web-form
  * https://cfrost.net
  */
-package net.eulerframework.web.module.cmf.controller.admin;
+package net.eulerframework.web.module.cmf.dao;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
+import java.util.Locale;
 
-import net.eulerframework.web.core.annotation.JspController;
-import net.eulerframework.web.core.base.controller.JspSupportWebController;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.util.Assert;
+
+import net.eulerframework.web.core.base.dao.impl.hibernate5.BaseDao;
+import net.eulerframework.web.module.cmf.entity.Post;
 
 /**
  * @author cFrost
  *
  */
-@JspController
-@RequestMapping("cmf/post")
-public class PostManageJspController extends JspSupportWebController {
+public class PostDao extends BaseDao<Post> {
 
-    public PostManageJspController() {
-        this.setWebControllerName("cmf/post");
+    /**
+     * @param type 文章类型
+     * @param locale 指定语言,空表示全部查出
+     * @param desc <code>true</code> 倒序查出 <code>false</code> 正序查出
+     * @return 符合条件的文章
+     */
+    public List<Post> findPostByOrder(String type, Locale locale, boolean desc) {
+        Assert.hasText(type, "Type is null");
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(this.entityClass);
+        detachedCriteria.add(Restrictions.eq("type", type));
+        
+        if(locale != null) {
+            detachedCriteria.add(Restrictions.eq("locale", locale));
+        }
+        
+        if(desc) {
+            detachedCriteria.addOrder(Order.desc("order"));            
+        } else {
+            detachedCriteria.addOrder(Order.asc("order"));  
+        }
+        return this.query(detachedCriteria);
     }
-    
-    @RequestMapping("postManage")
-    public String postManage() {
-        return this.display("postManage");
-    }
-    
-    @RequestMapping("postTypeManage")
-    public String postTypeManage() {
-        return this.display("postTypeManage");
-    }
+
 }
