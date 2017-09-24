@@ -30,6 +30,7 @@
 package net.eulerframework.web.module.cmf.controller.api;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.Resource;
 
@@ -52,7 +53,7 @@ public class SlideApiEndpoint extends AbstractApiEndpoint {
     @Resource private SlideService slideService;
     
     @RequestMapping("type/{type}")
-    public List<Slide> findSlidesByType(@PathVariable("type") String type) {
-        return this.slideService.findSlidesByType(type);
+    public List<Slide> findSlidesByType(@PathVariable("type") String type, Locale locale) {
+        return this.slideService.findSlidesByType(type, locale);
     }
 }

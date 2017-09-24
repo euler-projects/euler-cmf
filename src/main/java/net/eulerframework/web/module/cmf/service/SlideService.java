@@ -101,7 +101,7 @@ public class SlideService extends BaseService {
      */
     public void saveSlide(Slide slide) {
         if(!StringUtils.hasText(slide.getId())) {
-            List<Slide> slideInDescByOrder = this.slideDao.findSlideByOrder(slide.getType(), true);
+            List<Slide> slideInDescByOrder = this.slideDao.findSlideByOrder(slide.getType(), slide.getLocale(), true);
             if(CollectionUtils.isEmpty(slideInDescByOrder)) {
                 slide.setOrder(0);
             } else {
@@ -157,11 +157,13 @@ public class SlideService extends BaseService {
 
     /**
      * @param type
+     * @param locale 
      * @return
      */
-    public List<Slide> findSlidesByType(String type) {
+    public List<Slide> findSlidesByType(String type, Locale locale) {
         Assert.hasText(type, "Slide type can not be empty");
-        return this.slideDao.findSlideByOrder(type, false);
+        Assert.notNull(locale, "locale can not be null");
+        return this.slideDao.findSlideByOrder(type, locale, false);
     }
 
 }

@@ -33,10 +33,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import net.eulerframework.web.core.base.entity.UUIDEntity;
 import net.eulerframework.web.module.file.conf.FileConfig;
 import net.eulerframework.web.util.ServletUtils;
@@ -57,32 +54,18 @@ public class Post extends UUIDEntity<Post> {
     /**
      * 文章语言
      */
-    @Column(name = "LANGUAGE", nullable = false)
-    private Locale language;
+    @Column(name = "LOCALE", nullable = false)
+    private Locale locale;
     /**
      * 文章标题
      */
     @Column(name = "title", nullable = false)
     private String title;
     /**
-     * 文章题图归档文件名(可选字段,归档文件名即文档文件ID+后缀)
+     * 文章题图归档文件名(可选字段,归档文件名即文档文件ID)
      */
-    @Column(name = "THEME_PIC_AFN", nullable = true)
-    private String themePictureArchiedFileName;
-    /**
-     * 文章题图相对于WEB根目录的路径，包含ContextPath，以/开头，并以文件的时间扩展名结尾
-     * 
-     * <p>eg.
-     * <pre class="code">
-     * ContextPath = "/demo", themePicturePath = "/demo/image/xxxxxxxxxxxx.jpg"
-     * ContextPath = "", themePicturePath = "/image/xxxxxxxxxxxx.jpg"
-     * </pre>
-     */
-    @Transient
-    public String getThemePicturePath() {
-        return ServletUtils.getServletContext().getAttribute(FileConfig.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
-                + this.themePictureArchiedFileName;
-    }
+    @Column(name = "THEME_PIC_AF_ID", nullable = true, length = 36)
+    private String themePictureArchiedFileId;
     /**
      * 文章作者ID
      */
@@ -119,14 +102,17 @@ public class Post extends UUIDEntity<Post> {
     @Column(name = "SHOW_ORDER", nullable = false)
     private Integer order;
     
-    
-    @Column(name = "FILE_ID", nullable = false)
-    private String fileId;
-    @Column(name = "URI", nullable = true)
-    private String uri;
-    @Column(name = "DESCRIPTION", nullable = true, length = 1000)
-    private String description;
-    public String getType() {
-        return type;
+    /**
+     * 文章题图相对于WEB根目录的路径，包含ContextPath，以/开头，并以文件的时间扩展名结尾
+     * 
+     * <p>eg.
+     * <pre class="code">
+     * ContextPath = "/demo", themePicturePath = "/demo/image/xxxxxxxxxxxx.jpg"
+     * ContextPath = "", themePicturePath = "/image/xxxxxxxxxxxx.jpg"
+     * </pre>
+     */
+    public String getThemePicturePath() {
+        return ServletUtils.getServletContext().getAttribute(FileConfig.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
+                + this.themePictureArchiedFileId;
     }
 }
