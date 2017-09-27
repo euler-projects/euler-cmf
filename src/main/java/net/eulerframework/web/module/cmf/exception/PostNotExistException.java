@@ -27,38 +27,14 @@
  * https://github.com/euler-form/web-form
  * https://cfrost.net
  */
-package net.eulerframework.web.module.cmf.controller.admin;
+package net.eulerframework.web.module.cmf.exception;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import net.eulerframework.web.core.annotation.JspController;
-import net.eulerframework.web.core.base.controller.JspSupportWebController;
+import net.eulerframework.web.core.exception.web.WebRuntimeException;
 
 /**
  * @author cFrost
  *
  */
-@JspController
-@RequestMapping("cmf/post")
-public class PostManageJspController extends JspSupportWebController {
+public class PostNotExistException extends WebRuntimeException {
 
-    public PostManageJspController() {
-        this.setWebControllerName("cmf/post");
-    }
-    
-    @RequestMapping("postManage")
-    public String postManage() {
-        return this.display("postManage");
-    }
-    
-    @RequestMapping("editPost")
-    public String editPost(String postId) {
-        
-        return this.display("editPost");
-    }
-    
-    @RequestMapping("postTypeManage")
-    public String postTypeManage() {
-        return this.display("postTypeManage");
-    }
 }

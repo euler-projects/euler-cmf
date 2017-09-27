@@ -41,6 +41,7 @@ import net.eulerframework.web.core.annotation.AjaxController;
 import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
 import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
+import net.eulerframework.web.module.authentication.context.UserContext;
 import net.eulerframework.web.module.cmf.entity.Post;
 import net.eulerframework.web.module.cmf.entity.PostType;
 import net.eulerframework.web.module.cmf.service.PostService;
@@ -57,6 +58,7 @@ public class PostManageAjaxController extends AjaxSupportWebController {
     
     @RequestMapping(path = "savePost", method = RequestMethod.POST)
     public void savePostType(Post post) {
+        post.setAuthorId(UserContext.getCurrentUser().getUserId().toString());
         this.postService.savePost(post);
     }
 

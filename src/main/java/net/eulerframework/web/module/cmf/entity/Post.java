@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 import net.eulerframework.web.core.base.entity.UUIDEntity;
 import net.eulerframework.web.module.file.conf.FileConfig;
@@ -42,7 +43,7 @@ import net.eulerframework.web.util.ServletUtils;
  * @author cFrost
  *
  */
-//@Entity
+@Entity
 @Table(name="CMF_POST")
 public class Post extends UUIDEntity<Post> {
 
@@ -59,7 +60,7 @@ public class Post extends UUIDEntity<Post> {
     /**
      * 文章标题
      */
-    @Column(name = "title", nullable = false)
+    @Column(name = "TITLE", nullable = false)
     private String title;
     /**
      * 文章题图归档文件名(可选字段,归档文件名即文档文件ID)
@@ -77,10 +78,10 @@ public class Post extends UUIDEntity<Post> {
     @Column(name = "CREATE_DATE", nullable = false)
     private Date createDate;
     /**
-     * 文章更新时间
+     * 文章更新时间(发布时间)
      */
     @Column(name = "UPDATE_DATE", nullable = false)
-    private Date unpdateDate;
+    private Date updateDate;
     /**
      * 地点(可选字段)
      */
@@ -101,6 +102,21 @@ public class Post extends UUIDEntity<Post> {
      */
     @Column(name = "SHOW_ORDER", nullable = false)
     private Integer order;
+    /**
+     * 是否置顶
+     */
+    @Column(name = "IS_TOP", nullable = false)
+    private Boolean top;
+    /**
+     * 审核通过
+     */
+    @Column(name = "APPROVED", nullable = false)
+    private Boolean approved;
+    /**
+     * 附加数据,JSON格式(可选字段)
+     */
+    @Column(name = "ADD_DATA", nullable = true, length = Integer.MAX_VALUE)
+    private String additionalData;
     
     public String getType() {
         return type;
@@ -150,12 +166,12 @@ public class Post extends UUIDEntity<Post> {
         this.createDate = createDate;
     }
 
-    public Date getUnpdateDate() {
-        return unpdateDate;
+    public Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setUnpdateDate(Date unpdateDate) {
-        this.unpdateDate = unpdateDate;
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public String getLocation() {
@@ -188,6 +204,30 @@ public class Post extends UUIDEntity<Post> {
 
     public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    public Boolean getTop() {
+        return top;
+    }
+
+    public void setTop(Boolean top) {
+        this.top = top;
+    }
+
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
+    public String getAdditionalData() {
+        return additionalData;
+    }
+
+    public void setAdditionalData(String additionalData) {
+        this.additionalData = additionalData;
     }
 
     /**

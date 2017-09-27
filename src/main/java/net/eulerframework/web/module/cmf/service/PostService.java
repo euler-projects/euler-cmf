@@ -30,6 +30,7 @@
 package net.eulerframework.web.module.cmf.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,6 +50,7 @@ import net.eulerframework.web.module.cmf.dao.PostDao;
 import net.eulerframework.web.module.cmf.dao.PostTypeDao;
 import net.eulerframework.web.module.cmf.entity.Post;
 import net.eulerframework.web.module.cmf.entity.PostType;
+import net.eulerframework.web.module.cmf.exception.PostNotExistException;
 
 /**
  * @author cFrost
@@ -100,13 +102,22 @@ public class PostService extends BaseService {
      * @param post
      */
     public void savePost(Post post) {
-        if(!StringUtils.hasText(post.getId())) {
+        if(StringUtils.hasText(post.getId())) {
+            Post old = this.postDao.load(post.getId());
+            
+            if(old == null) {
+                throw new PostNotExistException();
+            }
+            
+            post.setCreateDate(old.getCreateDate());
+        } else {
             List<Post> postInDescByOrder = this.postDao.findPostByOrder(post.getType(), post.getLocale(), true);
             if(CollectionUtils.isEmpty(postInDescByOrder)) {
                 post.setOrder(0);
             } else {
                 post.setOrder(postInDescByOrder.get(0).getOrder() + 1);
             }
+            post.setCreateDate(new Date());            
         }
         this.postDao.saveOrUpdate(post);
     }
