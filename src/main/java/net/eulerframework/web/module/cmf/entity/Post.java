@@ -83,11 +83,6 @@ public class Post extends UUIDEntity<Post> {
     @Column(name = "UPDATE_DATE", nullable = false)
     private Date updateDate;
     /**
-     * 地点(可选字段)
-     */
-    @Column(name = "LOCATION", nullable = true)
-    private String location;
-    /**
      * 文章摘要(可选字段)
      */
     @Column(name = "EXCERPT", nullable = true)
@@ -115,8 +110,8 @@ public class Post extends UUIDEntity<Post> {
     /**
      * 附加数据,JSON格式(可选字段)
      */
-    @Column(name = "ADD_DATA", nullable = true, length = Integer.MAX_VALUE)
-    private String additionalData;
+    @Column(name = "EXTRA_DATA", nullable = true, length = Integer.MAX_VALUE)
+    private String extraData;
     
     public String getType() {
         return type;
@@ -174,14 +169,6 @@ public class Post extends UUIDEntity<Post> {
         this.updateDate = updateDate;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getExcerpt() {
         return excerpt;
     }
@@ -222,12 +209,12 @@ public class Post extends UUIDEntity<Post> {
         this.approved = approved;
     }
 
-    public String getAdditionalData() {
-        return additionalData;
+    public String getExtraData() {
+        return extraData;
     }
 
-    public void setAdditionalData(String additionalData) {
-        this.additionalData = additionalData;
+    public void setExtraData(String extraData) {
+        this.extraData = extraData;
     }
 
     /**

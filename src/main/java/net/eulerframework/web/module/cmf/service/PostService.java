@@ -177,4 +177,13 @@ public class PostService extends BaseService {
         return this.postDao.findPostByOrder(type, locale, false);
     }
 
+    /**
+     * 根据ID查找文章
+     * @param id 文章ID
+     * @return 文章
+     */
+    public Post findPost(String id) {
+        return this.postDao.load(id);
+    }
+
 }

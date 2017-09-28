@@ -29,13 +29,22 @@
  */
 package net.eulerframework.web.module.cmf.controller.admin.ajax;
 
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.eulerframework.web.core.annotation.AjaxController;
 import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
@@ -55,9 +64,36 @@ import net.eulerframework.web.module.cmf.service.PostService;
 public class PostManageAjaxController extends AjaxSupportWebController {
     
     @Resource PostService postService;
+    @Resource ObjectMapper objectMapper;
+    
+    private final static String EXTRA_DATA_PREFIX = "extra.";
     
     @RequestMapping(path = "savePost", method = RequestMethod.POST)
-    public void savePostType(Post post) {
+    public void savePostType(Post post) throws JsonProcessingException {
+        Map<String, String[]> params = this.getRequest().getParameterMap();
+        Map<String, Object> extraData = new HashMap<>();
+        
+        Set<Entry<String, String[]>> entry = params.entrySet();
+        for(Entry<String, String[]> each : entry) {
+            System.out.println(each.getKey());
+            if(each.getKey().startsWith(EXTRA_DATA_PREFIX)) {
+                String[] values = each.getValue();
+                extraData.put(each.getKey().substring(EXTRA_DATA_PREFIX.length()), 
+                        (values == null || values.length != 1) ? values : values[0]);
+            }
+        }
+        
+
+        Enumeration<String> a = this.getRequest().getParameterNames();
+        
+        while (a.hasMoreElements()) {
+            System.out.println(a.nextElement());
+        }
+        
+        if(!CollectionUtils.isEmpty(extraData)) {
+            post.setExtraData(this.objectMapper.writeValueAsString(extraData));
+        }
+        
         post.setAuthorId(UserContext.getCurrentUser().getUserId().toString());
         this.postService.savePost(post);
     }
