@@ -36,6 +36,7 @@ import java.util.Locale;
 import javax.annotation.Resource;
 
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -128,7 +129,10 @@ public class SlideService extends BaseService {
             criterions.add(Restrictions.eq("locale", new Locale(locale)));
         }
         
-        return this.slideDao.pageQuery(easyUiQueryReqeuset, criterions);
+        List<Order> orders = new ArrayList<>();
+        orders.add(Order.asc("order"));
+        
+        return this.slideDao.pageQuery(easyUiQueryReqeuset, criterions, orders);
     }
 
     /**

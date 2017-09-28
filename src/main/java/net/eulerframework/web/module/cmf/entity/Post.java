@@ -35,6 +35,8 @@ import java.util.Locale;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import net.eulerframework.web.core.base.entity.UUIDEntity;
 import net.eulerframework.web.module.file.conf.FileConfig;
 import net.eulerframework.web.util.ServletUtils;
@@ -229,5 +231,15 @@ public class Post extends UUIDEntity<Post> {
     public String getThemePicturePath() {
         return ServletUtils.getServletContext().getAttribute(FileConfig.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
                 + this.themePictureArchiedFileId;
+    }
+    
+    @Transient
+    private String authorUsername;
+
+    public void setAuthorUsername(String authorUsername) {
+        this.authorUsername = authorUsername;
+    }
+    public String getAuthorUsername() {
+        return this.authorUsername;
     }
 }

@@ -37,6 +37,7 @@ import java.util.Locale;
 import javax.annotation.Resource;
 
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -46,6 +47,7 @@ import org.springframework.util.StringUtils;
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
 import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
 import net.eulerframework.web.core.base.service.impl.BaseService;
+import net.eulerframework.web.module.authentication.util.SecurityTag;
 import net.eulerframework.web.module.cmf.dao.PostDao;
 import net.eulerframework.web.module.cmf.dao.PostTypeDao;
 import net.eulerframework.web.module.cmf.entity.Post;
@@ -139,7 +141,26 @@ public class PostService extends BaseService {
             criterions.add(Restrictions.eq("locale", new Locale(locale)));
         }
         
-        return this.postDao.pageQuery(easyUiQueryReqeuset, criterions);
+        String top = easyUiQueryReqeuset.getFilterValue("top");
+        if(StringUtils.hasText(top)) {
+            criterions.add(Restrictions.eq("top", Boolean.parseBoolean(top)));
+        }
+        
+        String approved = easyUiQueryReqeuset.getFilterValue("approved");
+        if(StringUtils.hasText(approved)) {
+            criterions.add(Restrictions.eq("approved", Boolean.parseBoolean(approved)));
+        }
+        
+        List<Order> orders = new ArrayList<>();
+        orders.add(Order.asc("order"));
+        
+        EasyUIPageResponse<Post> ret = this.postDao.pageQuery(easyUiQueryReqeuset, criterions, orders);
+        
+        if(!CollectionUtils.isEmpty(ret.getRows())) {
+            ret.getRows().stream().forEach(row -> row.setAuthorUsername(SecurityTag.userIdtoUserame(row.getAuthorId())));
+        }
+        
+        return ret;
     }
 
     /**
@@ -184,6 +205,74 @@ public class PostService extends BaseService {
      */
     public Post findPost(String id) {
         return this.postDao.load(id);
+    }
+
+    /**
+     * @param postIds
+     */
+    public void topPostsRWT(String... postId) {
+        List<Post> posts = this.postDao.load(postId);
+        
+        if(CollectionUtils.isEmpty(posts)) {
+            return;
+        }
+        
+        for(Post post : posts) {
+            post.setTop(true);
+        }
+        
+        this.postDao.saveOrUpdateBatch(posts);
+    }
+
+    /**
+     * @param postIds
+     */
+    public void untopPostsRWT(String... postId) {
+        List<Post> posts = this.postDao.load(postId);
+        
+        if(CollectionUtils.isEmpty(posts)) {
+            return;
+        }
+        
+        for(Post post : posts) {
+            post.setTop(false);
+        }
+        
+        this.postDao.saveOrUpdateBatch(posts);
+    }
+
+    /**
+     * @param postIds
+     */
+    public void approvePostsRWT(String... postId) {
+        List<Post> posts = this.postDao.load(postId);
+        
+        if(CollectionUtils.isEmpty(posts)) {
+            return;
+        }
+        
+        for(Post post : posts) {
+            post.setApproved(true);
+        }
+        
+        this.postDao.saveOrUpdateBatch(posts);
+    }
+
+    /**
+     * @param postIds
+     */
+    public void unapprovePostsRWT(String... postId) {
+        List<Post> posts = this.postDao.load(postId);
+        
+        if(CollectionUtils.isEmpty(posts)) {
+            return;
+        }
+        
+        for(Post post : posts) {
+            post.setApproved(false);
+        }
+        
+        this.postDao.saveOrUpdateBatch(posts);
     }
 
 }

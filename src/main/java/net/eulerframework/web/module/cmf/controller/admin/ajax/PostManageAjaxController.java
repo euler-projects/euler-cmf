@@ -113,6 +113,23 @@ public class PostManageAjaxController extends AjaxSupportWebController {
         this.postService.sortPostsRWT(postIds, postOrders);
     }
     
+    @RequestMapping(path = "topPosts", method = RequestMethod.POST)
+    public void topPosts(@RequestParam String[] postIds) {
+        this.postService.topPostsRWT(postIds);
+    }
+    @RequestMapping(path = "untopPosts", method = RequestMethod.POST)
+    public void untopPosts(@RequestParam String[] postIds) {
+        this.postService.untopPostsRWT(postIds);
+    }
+    @RequestMapping(path = "approvePosts", method = RequestMethod.POST)
+    public void approvePosts(@RequestParam String[] postIds) {
+        this.postService.approvePostsRWT(postIds);
+    }
+    @RequestMapping(path = "unapprovePosts", method = RequestMethod.POST)
+    public void unapprovePosts(@RequestParam String[] postIds) {
+        this.postService.unapprovePostsRWT(postIds);
+    }
+    
     @RequestMapping(path = "findAllPostTypes", method = RequestMethod.GET)
     public List<PostType> findAllPostTypes() {
         return this.postService.findAllPostTypes();
