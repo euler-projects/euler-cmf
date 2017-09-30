@@ -53,6 +53,10 @@ public class PostType extends NonIDEntity<PostType, String> {
     private String description;
     @Column(name = "ENABLED", nullable = false)
     private Boolean enabled;
+    @Column(name = "ADMIN_PAGE_SUFFIX", nullable = false)
+    private String adminPageSuffix;
+    @Column(name = "VIEW_PAGE_SUFFIX", nullable = false)
+    private String viewPageSuffix;
 
     public String getType() {
         return type;
@@ -84,6 +88,22 @@ public class PostType extends NonIDEntity<PostType, String> {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getAdminPageSuffix() {
+        return adminPageSuffix;
+    }
+
+    public void setAdminPageSuffix(String adminPageSuffix) {
+        this.adminPageSuffix = adminPageSuffix;
+    }
+
+    public String getViewPageSuffix() {
+        return viewPageSuffix;
+    }
+
+    public void setViewPageSuffix(String viewPageSuffix) {
+        this.viewPageSuffix = viewPageSuffix;
     }
 
     @Override

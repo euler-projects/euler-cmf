@@ -64,9 +64,11 @@ public class PostManageJspController extends JspSupportWebController {
     @RequestMapping("addPost")
     public String addPost(@RequestParam(required = false) String type) {
         if(StringUtils.hasText(type)) {
-            return this.display("addPost-" + type);
+            String adminPageSuffix = this.postService.findAdminPageSuffix(type);
+            this.getRequest().setAttribute("type", type);
+            return this.display("addPost-" + (StringUtils.hasText(adminPageSuffix) ? adminPageSuffix : "default"));
         } else {
-            return this.display("addPost");
+            return this.display("addPost-default");
         }
     }
     
@@ -82,9 +84,10 @@ public class PostManageJspController extends JspSupportWebController {
         
         this.getRequest().setAttribute("post", new PostExtraDataVO(post));
         if(StringUtils.hasText(type)) {
-            return this.display("editPost-" + type);
+            String adminPageSuffix = this.postService.findAdminPageSuffix(type);
+            return this.display("editPost-" + (StringUtils.hasText(adminPageSuffix) ? adminPageSuffix : "default"));
         } else {
-            return this.display("editPost");
+            return this.display("editPost-default");
         }
     }
     

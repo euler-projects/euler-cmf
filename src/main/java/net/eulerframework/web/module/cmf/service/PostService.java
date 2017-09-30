@@ -62,6 +62,24 @@ import net.eulerframework.web.module.cmf.exception.PostNotExistException;
 public class PostService extends BaseService {
     
     @Resource PostTypeDao postTypeDao;
+    
+    public String findAdminPageSuffix(String type) {
+        PostType postType = this.postTypeDao.load(type);
+        if(postType == null) {
+            return null;
+        }
+        
+        return postType.getAdminPageSuffix();
+    }
+    
+    public String findViewPageSuffix(String type) {
+        PostType postType = this.postTypeDao.load(type);
+        if(postType == null) {
+            return null;
+        }
+        
+        return postType.getViewPageSuffix();
+    }
 
     /**
      * 新建文章类型
