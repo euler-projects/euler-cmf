@@ -52,6 +52,11 @@ public class PostApiEndpoint extends AbstractApiEndpoint {
     
     @Resource private PostService postService;
 
+    @RequestMapping("{postId}")
+    public Post findPost(@PathVariable("postId") String postId) {
+        return this.postService.findPost(postId);
+    }
+
     /**
      * 获取发表过某类型文章的所有年份
      * @param type 文章类型
@@ -75,7 +80,11 @@ public class PostApiEndpoint extends AbstractApiEndpoint {
             return null;
         }
         
-        return this.postService.findPostsInOrder(type, years.get(years.size() - 1), this.getRequest().getLocale());
+        List<Post> ret = this.postService.findPostsInOrder(type, years.get(years.size() - 1), this.getRequest().getLocale());
+
+        this.eareaseContect(ret);
+        
+        return ret;
     }
     
     /**
@@ -86,6 +95,18 @@ public class PostApiEndpoint extends AbstractApiEndpoint {
      */
     @RequestMapping("type/{type}/year/{year}")
     public List<Post> findPosts(@PathVariable("type") String type, @PathVariable("year") String year) {
-        return this.postService.findPostsInOrder(type, year, this.getRequest().getLocale());
+        List<Post> ret = this.postService.findPostsInOrder(type, year, this.getRequest().getLocale());
+
+        this.eareaseContect(ret);
+        
+        return ret;
+    }
+    
+    private void eareaseContect(List<Post> posts) {
+        if(!CollectionUtils.isEmpty(posts)) {
+            for(Post each : posts) {
+                each.setContent(null);
+            }
+        }
     }
 }
