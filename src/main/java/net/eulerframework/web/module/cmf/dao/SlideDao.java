@@ -66,7 +66,7 @@ public class SlideDao extends BaseDao<Slide> {
         } else {
             detachedCriteria.addOrder(Order.asc("order"));  
         }
-        return this.query(detachedCriteria);
+        return this.limitQuery(detachedCriteria, 60);
     }
 
 }

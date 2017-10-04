@@ -95,7 +95,7 @@ public class PostManageAjaxController extends AjaxSupportWebController {
         }
         
         post.setAuthorId(UserContext.getCurrentUser().getUserId().toString());
-        this.postService.savePost(post);
+        this.postService.saveOrUpdatePost(post);
     }
 
     @RequestMapping(path = "findPostByPage")

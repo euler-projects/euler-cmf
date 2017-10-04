@@ -35,6 +35,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.springframework.util.StringUtils;
+
 import net.eulerframework.constant.EulerSysAttributes;
 import net.eulerframework.web.core.base.entity.UUIDEntity;
 import net.eulerframework.web.util.ServletUtils;
@@ -123,8 +125,12 @@ public class Slide extends UUIDEntity<Slide> {
      * </pre>
      */
     public String getImagePath() {
-        return ServletUtils.getServletContext().getAttribute(EulerSysAttributes.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
-                + this.fileId;
+        if(StringUtils.hasText(fileId)) {
+            return ServletUtils.getServletContext().getAttribute(EulerSysAttributes.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
+                    + this.fileId;
+        } else {
+            return null;
+        }
     }
     
 

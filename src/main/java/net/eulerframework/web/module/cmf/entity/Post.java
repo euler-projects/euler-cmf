@@ -37,6 +37,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.util.StringUtils;
+
 import net.eulerframework.constant.EulerSysAttributes;
 import net.eulerframework.web.core.base.entity.UUIDEntity;
 import net.eulerframework.web.util.ServletUtils;
@@ -229,8 +231,12 @@ public class Post extends UUIDEntity<Post> {
      * </pre>
      */
     public String getThemePicturePath() {
-        return ServletUtils.getServletContext().getAttribute(EulerSysAttributes.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
-                + this.themePictureArchiedFileId;
+        if(StringUtils.hasText(themePictureArchiedFileId)) {
+            return ServletUtils.getServletContext().getAttribute(EulerSysAttributes.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
+                    + this.themePictureArchiedFileId;
+        } else {
+            return null;
+        }
     }
     
     @Transient

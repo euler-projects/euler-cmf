@@ -63,6 +63,17 @@ public class PostService extends BaseService {
     
     @Resource PostTypeDao postTypeDao;
     
+    @Resource PostDao postDao;
+    
+    /*
+     * ===========================ADMIN=============================
+     */
+    
+    /**
+     * 获取文章管理页面后缀，管理页面后缀用于定制不同类型文章的管理页面，默认为default
+     * @param type 文章类型
+     * @return 文章管理页面后缀
+     */
     public String findAdminPageSuffix(String type) {
         PostType postType = this.postTypeDao.load(type);
         if(postType == null) {
@@ -70,15 +81,6 @@ public class PostService extends BaseService {
         }
         
         return postType.getAdminPageSuffix();
-    }
-    
-    public String findViewPageSuffix(String type) {
-        PostType postType = this.postTypeDao.load(type);
-        if(postType == null) {
-            return null;
-        }
-        
-        return postType.getViewPageSuffix();
     }
 
     /**
@@ -115,13 +117,12 @@ public class PostService extends BaseService {
         tmp.setEnabled(true);
         return this.postTypeDao.queryByEntity(tmp);
     }
-    
-    @Resource PostDao postDao;
 
     /**
-     * @param post
+     * 保存或更新文章
+     * @param post 待保存或跟新的文章实体
      */
-    public void savePost(Post post) {
+    public void saveOrUpdatePost(Post post) {
         if(StringUtils.hasText(post.getId())) {
             Post old = this.postDao.load(post.getId());
             
@@ -131,7 +132,7 @@ public class PostService extends BaseService {
             
             post.setCreateDate(old.getCreateDate());
         } else {
-            List<Post> postInDescByOrder = this.postDao.findPostByOrder(post.getType(), post.getLocale(), true);
+            List<Post> postInDescByOrder = this.postDao.findPostsInOrder(post.getType(), null, post.getLocale(), true);
             if(CollectionUtils.isEmpty(postInDescByOrder)) {
                 post.setOrder(0);
             } else {
@@ -143,8 +144,9 @@ public class PostService extends BaseService {
     }
 
     /**
-     * @param easyUiQueryReqeuset
-     * @return
+     * 分页查询文章
+     * @param easyUiQueryReqeuset 分页请求
+     * @return 分页响应
      */
     public EasyUIPageResponse<Post> findPostByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
         List<Criterion> criterions = new ArrayList<>();
@@ -182,16 +184,17 @@ public class PostService extends BaseService {
     }
 
     /**
-     * @param ids
+     * 批量删除文章
+     * @param postId 待删除的文章id
      */
-    public void deletePosts(String... id) {
-        this.postDao.deleteByIds(id);
-        
+    public void deletePosts(String... postId) {
+        this.postDao.deleteByIds(postId);
     }
 
     /**
-     * @param postIds
-     * @param postOrders
+     * 为文章排序
+     * @param postIds 文章ID
+     * @param postOrders 文章序号，需于文章ID一一对应
      */
     public void sortPostsRWT(String[] postIds, int[] postOrders) {
         Assert.notEmpty(postIds, "postIds is empty");
@@ -206,27 +209,8 @@ public class PostService extends BaseService {
     }
 
     /**
-     * @param type
-     * @param locale 
-     * @return
-     */
-    public List<Post> findPostsByType(String type, Locale locale) {
-        Assert.hasText(type, "Post type can not be empty");
-        Assert.notNull(locale, "locale can not be null");
-        return this.postDao.findPostByOrder(type, locale, false);
-    }
-
-    /**
-     * 根据ID查找文章
-     * @param id 文章ID
-     * @return 文章
-     */
-    public Post findPost(String id) {
-        return this.postDao.load(id);
-    }
-
-    /**
-     * @param postIds
+     * 置顶文章
+     * @param postId 待置顶的文章ID
      */
     public void topPostsRWT(String... postId) {
         List<Post> posts = this.postDao.load(postId);
@@ -243,7 +227,8 @@ public class PostService extends BaseService {
     }
 
     /**
-     * @param postIds
+     * 取消置顶文章
+     * @param postId 待取消置顶的文章ID
      */
     public void untopPostsRWT(String... postId) {
         List<Post> posts = this.postDao.load(postId);
@@ -260,7 +245,8 @@ public class PostService extends BaseService {
     }
 
     /**
-     * @param postIds
+     * 审批文章
+     * @param postId 待审批的文章ID
      */
     public void approvePostsRWT(String... postId) {
         List<Post> posts = this.postDao.load(postId);
@@ -277,7 +263,8 @@ public class PostService extends BaseService {
     }
 
     /**
-     * @param postIds
+     * 取消审批文章
+     * @param postId 待取消审批的文章ID
      */
     public void unapprovePostsRWT(String... postId) {
         List<Post> posts = this.postDao.load(postId);
@@ -291,6 +278,54 @@ public class PostService extends BaseService {
         }
         
         this.postDao.saveOrUpdateBatch(posts);
+    }
+    
+    /*
+     * ===========================VIEW=============================
+     */
+
+    /**
+     * 获取文章展示页面后缀，管理页面后缀用于定制不同类型文章的展示页面，默认为default
+     * @param type 文章类型
+     * @return 文章展示页面后缀
+     */
+    public String findViewPageSuffix(String type) {
+        PostType postType = this.postTypeDao.load(type);
+        if(postType == null) {
+            return null;
+        }
+        
+        return postType.getViewPageSuffix();
+    }
+
+    /**
+     * 根据ID查找文章
+     * @param id 文章ID
+     * @return 文章
+     */
+    public Post findPost(String id) {
+        return this.postDao.load(id);
+    }
+
+    /**
+     * 按年份、语言和类型正序读取文章
+     * @param type 文章类型
+     * @param year 发布年份
+     * @param locale 语言
+     * @return 文章列表
+     */
+    public List<Post> findPostsInOrder(String type, String year, Locale locale) {
+        return this.postDao.findPostsInOrder(type, year, locale, false);
+    }
+
+    /**
+     * 按语言获取某类型文章的所有可用年份
+     * @param type 文章类型
+     * @param locale 语言
+     * @return 可用年份列表，正序排列
+     */
+    public List<String> findPostsYears(String type, Locale locale) {
+        return this.postDao.findPostsYears(type, locale);
     }
 
 }
