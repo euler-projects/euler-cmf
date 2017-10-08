@@ -47,13 +47,13 @@ import net.eulerframework.web.module.cmf.vo.PostExtraDataVO;
  *
  */
 @JspController
-@RequestMapping("cmf/post")
+@RequestMapping("cms/post")
 public class PostManageJspController extends JspSupportWebController {
     
     @Resource PostService postService;
 
     public PostManageJspController() {
-        this.setWebControllerName("cmf/post");
+        this.setWebControllerName("cms/post");
     }
     
     @RequestMapping("postManage")

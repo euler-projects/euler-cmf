@@ -60,7 +60,7 @@ import net.eulerframework.web.module.cmf.service.PostService;
  *
  */
 @AjaxController
-@RequestMapping("cmf/post")
+@RequestMapping("cms/post")
 public class PostManageAjaxController extends AjaxSupportWebController {
     
     @Resource PostService postService;

@@ -46,7 +46,7 @@ import net.eulerframework.web.module.cmf.config.CmfConfig;
  *
  */
 @AjaxController
-@RequestMapping("cmf/public")
+@RequestMapping("cms/public")
 public class PublicAjaxController extends AjaxSupportWebController {
     
     @RequestMapping(path = "findAllSupportLanguages", method = RequestMethod.GET)

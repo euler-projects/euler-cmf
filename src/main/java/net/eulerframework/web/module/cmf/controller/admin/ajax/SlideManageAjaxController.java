@@ -50,7 +50,7 @@ import net.eulerframework.web.module.cmf.service.SlideService;
  *
  */
 @AjaxController
-@RequestMapping("cmf/slide")
+@RequestMapping("cms/slide")
 public class SlideManageAjaxController extends AjaxSupportWebController {
     
     @Resource SlideService slideService;
