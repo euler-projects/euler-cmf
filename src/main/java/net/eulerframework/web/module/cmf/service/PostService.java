@@ -132,7 +132,7 @@ public class PostService extends BaseService {
             
             post.setCreateDate(old.getCreateDate());
         } else {
-            List<Post> postInDescByOrder = this.postDao.findPostsInOrder(post.getType(), null, post.getLocale(), true);
+            List<Post> postInDescByOrder = this.postDao.findPostsInOrder(post.getType(), null, post.getLocale(), true, false, 1);
             if(CollectionUtils.isEmpty(postInDescByOrder)) {
                 post.setOrder(0);
             } else {
@@ -312,10 +312,11 @@ public class PostService extends BaseService {
      * @param type 文章类型
      * @param year 发布年份
      * @param locale 语言
+     * @param max 
      * @return 文章列表
      */
-    public List<Post> findPostsInOrder(String type, String year, Locale locale) {
-        return this.postDao.findPostsInOrder(type, year, locale, false);
+    public List<Post> findPostsInOrder(String type, String year, Locale locale, boolean onlyTop, int max) {
+        return this.postDao.findPostsInOrder(type, year, locale, false, onlyTop, max);
     }
 
     /**

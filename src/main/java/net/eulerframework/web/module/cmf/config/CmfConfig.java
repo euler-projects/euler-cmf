@@ -21,10 +21,18 @@ public abstract class CmfConfig {
 
     private static class CmfConfigKey {
        private final static String SUPPORT_LANGUAGES = "supportLanguages";
+
+       private final static String POST_QUERY_LIMIT_DEFAULT = "post.queryLimitDefault";
+       private final static String POST_QUERY_LIMIT_MIN = "post.queryLimitMin";
+       private final static String POST_QUERY_LIMIT_MAX = "post.queryLimitMax";
     }
 
     private static class CmfConfigDefault {
         private final static Locale[] SUPPORT_LANGUAGES = new Locale[] {Locale.CHINA, Locale.US};
+
+        private final static int POST_QUERY_LIMIT_DEFAULT = 20;
+        private final static int POST_QUERY_LIMIT_MIN = 1;
+        private final static int POST_QUERY_LIMIT_MAX = 100;
     }
 
     public static boolean clearSecurityConfigCache() {
@@ -47,6 +55,21 @@ public abstract class CmfConfig {
                 return CmfConfigDefault.SUPPORT_LANGUAGES;
             }
         });
+    }
+    
+    public static int getPostQueryLimitDefault() {
+        return (int) CONFIG_CAHCE.get(CmfConfigKey.POST_QUERY_LIMIT_DEFAULT, key ->
+            properties.getIntValue(key, CmfConfigDefault.POST_QUERY_LIMIT_DEFAULT));
+    }
+    
+    public static int getPostQueryLimitMin() {
+        return (int) CONFIG_CAHCE.get(CmfConfigKey.POST_QUERY_LIMIT_MIN, key ->
+            properties.getIntValue(key, CmfConfigDefault.POST_QUERY_LIMIT_MIN));
+    }
+    
+    public static int getPostQueryLimitMax() {
+        return (int) CONFIG_CAHCE.get(CmfConfigKey.POST_QUERY_LIMIT_MAX, key ->
+            properties.getIntValue(key, CmfConfigDefault.POST_QUERY_LIMIT_MAX));
     }
 
 }
