@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import net.eulerframework.web.core.annotation.AjaxController;
 import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
-import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
+import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.cmf.entity.Slide;
 import net.eulerframework.web.module.cmf.entity.SlideType;
 import net.eulerframework.web.module.cmf.service.SlideService;
@@ -61,7 +61,7 @@ public class SlideManageAjaxController extends AjaxSupportWebController {
     }
 
     @RequestMapping(path = "findSlideByPage")
-    public EasyUIPageResponse<Slide> findSlideByPage(){
+    public PageResponse<Slide> findSlideByPage(){
         return this.slideService.findSlideByPage(new EasyUiQueryReqeuset(this.getRequest()));
     }
     
@@ -81,7 +81,7 @@ public class SlideManageAjaxController extends AjaxSupportWebController {
     }
 
     @RequestMapping(path = "findSlideTypeByPage")
-    public EasyUIPageResponse<SlideType> findSlideTypeByPage(){
+    public PageResponse<SlideType> findSlideTypeByPage(){
         return this.slideService.findSlideTypeByPage(new EasyUiQueryReqeuset(this.getRequest()));
     }
     

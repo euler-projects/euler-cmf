@@ -40,6 +40,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import net.eulerframework.web.core.annotation.ApiEndpoint;
 import net.eulerframework.web.core.base.controller.AbstractApiEndpoint;
+import net.eulerframework.web.core.base.request.PageQueryRequest;
+import net.eulerframework.web.core.base.response.PageResponse;
+import net.eulerframework.web.module.authentication.util.SecurityTag;
 import net.eulerframework.web.module.cmf.config.CmfConfig;
 import net.eulerframework.web.module.cmf.entity.Post;
 import net.eulerframework.web.module.cmf.service.PostService;
@@ -56,7 +59,13 @@ public class PostApiEndpoint extends AbstractApiEndpoint {
 
     @RequestMapping("{postId}")
     public Post findPost(@PathVariable("postId") String postId) {
-        return this.postService.findPost(postId);
+        Post ret = this.postService.findPost(postId);
+        
+        if(ret != null) {
+            ret.setAuthorUsername(SecurityTag.userIdtoUserame(ret.getAuthorId()));
+        }
+        
+        return ret;
     }
 
     /**
@@ -66,7 +75,7 @@ public class PostApiEndpoint extends AbstractApiEndpoint {
      */
     @RequestMapping("type/{type}:availableYears")
     public List<String> availableYears(@PathVariable("type") String type) {
-        return this.postService.findPostsYears(type,  this.getRequest().getLocale());
+        return this.postService.findPostsYears(type, this.getRequest().getLocale());
     }
     
     /**
@@ -94,7 +103,22 @@ public class PostApiEndpoint extends AbstractApiEndpoint {
         
         List<Post> ret = this.postService.findPostsInOrder(type, year, this.getRequest().getLocale(), top, max);
 
+        ret.stream().forEach(row -> row.setAuthorUsername(SecurityTag.userIdtoUserame(row.getAuthorId())));
+
         this.eareaseContect(ret);
+        
+        return ret;
+    }
+    @RequestMapping("type/{type}:pageMode")
+    public PageResponse<Post> findPostsByPage(@PathVariable("type") String type) {
+        PageQueryRequest pageQueryRequest = new PageQueryRequest(this.getRequest());
+        
+        pageQueryRequest.getQueryMap().put("type", type);
+        pageQueryRequest.getQueryMap().put("approved", "true");
+        
+        PageResponse<Post> ret = this.postService.findPostByPage(pageQueryRequest);
+        
+        this.eareaseContect(ret.getRows());
         
         return ret;
     }

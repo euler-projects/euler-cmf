@@ -44,8 +44,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import net.eulerframework.web.core.base.request.PageQueryRequest;
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
-import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
+import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.core.base.service.impl.BaseService;
 import net.eulerframework.web.module.authentication.util.SecurityTag;
 import net.eulerframework.web.module.cmf.dao.PostDao;
@@ -96,7 +97,7 @@ public class PostService extends BaseService {
      * @param easyUiQueryReqeuset 分页请求
      * @return 分页响应
      */
-    public EasyUIPageResponse<PostType> findPostTypeByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
+    public PageResponse<PostType> findPostTypeByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
         return this.postTypeDao.pageQuery(easyUiQueryReqeuset);
     }
 
@@ -132,7 +133,7 @@ public class PostService extends BaseService {
             
             post.setCreateDate(old.getCreateDate());
         } else {
-            List<Post> postInDescByOrder = this.postDao.findPostsInOrder(post.getType(), null, post.getLocale(), true, false, 1);
+            List<Post> postInDescByOrder = this.postDao.findPostsInOrder(post.getType(), null, post.getLocale(), true, false, false, 1);
             if(CollectionUtils.isEmpty(postInDescByOrder)) {
                 post.setOrder(0);
             } else {
@@ -148,7 +149,7 @@ public class PostService extends BaseService {
      * @param easyUiQueryReqeuset 分页请求
      * @return 分页响应
      */
-    public EasyUIPageResponse<Post> findPostByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
+    public PageResponse<Post> findPostByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
         List<Criterion> criterions = new ArrayList<>();
         
         String type = easyUiQueryReqeuset.getFilterValue("type");
@@ -174,7 +175,7 @@ public class PostService extends BaseService {
         List<Order> orders = new ArrayList<>();
         orders.add(Order.asc("order"));
         
-        EasyUIPageResponse<Post> ret = this.postDao.pageQuery(easyUiQueryReqeuset, criterions, orders);
+        PageResponse<Post> ret = this.postDao.pageQuery(easyUiQueryReqeuset, criterions, orders);
         
         if(!CollectionUtils.isEmpty(ret.getRows())) {
             ret.getRows().stream().forEach(row -> row.setAuthorUsername(SecurityTag.userIdtoUserame(row.getAuthorId())));
@@ -316,7 +317,7 @@ public class PostService extends BaseService {
      * @return 文章列表
      */
     public List<Post> findPostsInOrder(String type, String year, Locale locale, boolean onlyTop, int max) {
-        return this.postDao.findPostsInOrder(type, year, locale, false, onlyTop, max);
+        return this.postDao.findPostsInOrder(type, year, locale, false, onlyTop, true, max);
     }
 
     /**
@@ -327,6 +328,23 @@ public class PostService extends BaseService {
      */
     public List<String> findPostsYears(String type, Locale locale) {
         return this.postDao.findPostsYears(type, locale);
+    }
+
+    /**
+     * @param pageQueryRequest
+     * @return
+     */
+    public PageResponse<Post> findPostByPage(PageQueryRequest pageQueryRequest) {        
+        List<Order> orders = new ArrayList<>();
+        orders.add(Order.asc("order"));
+        
+        PageResponse<Post> ret = this.postDao.pageQuery(pageQueryRequest, null, orders);
+        
+        if(!CollectionUtils.isEmpty(ret.getRows())) {
+            ret.getRows().stream().forEach(row -> row.setAuthorUsername(SecurityTag.userIdtoUserame(row.getAuthorId())));
+        }
+        
+        return ret;
     }
 
 }

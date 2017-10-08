@@ -49,7 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.eulerframework.web.core.annotation.AjaxController;
 import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
-import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
+import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.authentication.context.UserContext;
 import net.eulerframework.web.module.cmf.entity.Post;
 import net.eulerframework.web.module.cmf.entity.PostType;
@@ -99,7 +99,7 @@ public class PostManageAjaxController extends AjaxSupportWebController {
     }
 
     @RequestMapping(path = "findPostByPage")
-    public EasyUIPageResponse<Post> findPostByPage(){
+    public PageResponse<Post> findPostByPage(){
         return this.postService.findPostByPage(new EasyUiQueryReqeuset(this.getRequest()));
     }
     
@@ -136,7 +136,7 @@ public class PostManageAjaxController extends AjaxSupportWebController {
     }
 
     @RequestMapping(path = "findPostTypeByPage")
-    public EasyUIPageResponse<PostType> findPostTypeByPage(){
+    public PageResponse<PostType> findPostTypeByPage(){
         return this.postService.findPostTypeByPage(new EasyUiQueryReqeuset(this.getRequest()));
     }
     

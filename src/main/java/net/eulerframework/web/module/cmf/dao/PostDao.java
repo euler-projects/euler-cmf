@@ -58,10 +58,11 @@ public class PostDao extends BaseDao<Post> {
      * @param locale 指定语言,空表示全部查出
      * @param desc <code>true</code> 倒序查出 <code>false</code> 正序查出
      * @param onlyTop <code>true</code> 只查置顶项目 <code>false</code> 查出置顶和非置顶项目
+     * @param onlyApproved <code>true</code> 只查已审核项目 <code>false</code> 查出已审核和未审核项目
      * @param max 查询结果数量限制,最大值1000
      * @return 符合条件的文章
      */
-    public List<Post> findPostsInOrder(String type, String year, Locale locale, boolean desc, boolean onlyTop, int max) {
+    public List<Post> findPostsInOrder(String type, String year, Locale locale, boolean desc, boolean onlyTop, boolean onlyApproved, int max) {
         Assert.hasText(type, "Type is null");
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(this.entityClass);
         detachedCriteria.add(Restrictions.eq("type", type));
@@ -89,6 +90,14 @@ public class PostDao extends BaseDao<Post> {
             detachedCriteria.addOrder(Order.desc("order"));            
         } else {
             detachedCriteria.addOrder(Order.asc("order"));  
+        }
+        
+        if(onlyTop) {
+            detachedCriteria.add(Restrictions.eq("top", onlyTop));
+        }
+        
+        if(onlyApproved) {
+            detachedCriteria.add(Restrictions.eq("approved", onlyApproved));
         }
         
         return this.limitQuery(detachedCriteria, max > 1000 ? 1000 : max);

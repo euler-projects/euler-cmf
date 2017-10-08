@@ -44,7 +44,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
-import net.eulerframework.web.core.base.response.easyuisupport.EasyUIPageResponse;
+import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.core.base.service.impl.BaseService;
 import net.eulerframework.web.module.cmf.dao.SlideDao;
 import net.eulerframework.web.module.cmf.dao.SlideTypeDao;
@@ -73,7 +73,7 @@ public class SlideService extends BaseService {
      * @param easyUiQueryReqeuset 分页请求
      * @return 分页响应
      */
-    public EasyUIPageResponse<SlideType> findSlideTypeByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
+    public PageResponse<SlideType> findSlideTypeByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
         return this.slideTypeDao.pageQuery(easyUiQueryReqeuset);
     }
 
@@ -116,7 +116,7 @@ public class SlideService extends BaseService {
      * @param easyUiQueryReqeuset
      * @return
      */
-    public EasyUIPageResponse<Slide> findSlideByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
+    public PageResponse<Slide> findSlideByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
         List<Criterion> criterions = new ArrayList<>();
         
         String type = easyUiQueryReqeuset.getFilterValue("type");
