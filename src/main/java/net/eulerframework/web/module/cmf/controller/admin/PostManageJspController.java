@@ -40,7 +40,6 @@ import net.eulerframework.web.core.base.controller.JspSupportWebController;
 import net.eulerframework.web.module.cmf.entity.Post;
 import net.eulerframework.web.module.cmf.exception.PostNotExistException;
 import net.eulerframework.web.module.cmf.service.PostService;
-import net.eulerframework.web.module.cmf.vo.PostExtraDataVO;
 
 /**
  * @author cFrost
@@ -82,7 +81,7 @@ public class PostManageJspController extends JspSupportWebController {
             throw new PostNotExistException();
         }
         
-        this.getRequest().setAttribute("post", new PostExtraDataVO(post));
+        this.getRequest().setAttribute("post", post);
         if(StringUtils.hasText(type)) {
             String adminPageSuffix = this.postService.findAdminPageSuffix(type);
             return this.display("editPost-" + (StringUtils.hasText(adminPageSuffix) ? adminPageSuffix : "default"));

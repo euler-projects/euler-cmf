@@ -29,8 +29,11 @@
  */
 package net.eulerframework.web.module.cmf.entity;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +41,12 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.springframework.util.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.eulerframework.constant.EulerSysAttributes;
 import net.eulerframework.web.core.base.entity.UUIDEntity;
@@ -50,6 +59,7 @@ import net.eulerframework.web.util.ServletUtils;
 @Entity
 @Table(name="CMF_POST")
 public class Post extends UUIDEntity<Post> {
+    
 
     /**
      * 文章类型
@@ -213,12 +223,22 @@ public class Post extends UUIDEntity<Post> {
         this.approved = approved;
     }
 
+    @JsonIgnore
     public String getExtraData() {
         return extraData;
     }
 
     public void setExtraData(String extraData) {
         this.extraData = extraData;
+    }
+
+    public Map<String, Object> getExtra() throws JsonParseException, JsonMappingException, IOException {
+        if(!StringUtils.hasText(this.getExtraData())) {
+            return null;
+        }
+        
+        JavaType extraType = this.objectMapper.getTypeFactory().constructMapLikeType(HashMap.class, String.class, Object.class);
+        return this.objectMapper.readValue(this.getExtraData(), extraType);
     }
 
     /**
@@ -241,6 +261,8 @@ public class Post extends UUIDEntity<Post> {
     
     @Transient
     private String authorUsername;
+    @Transient
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     public void setAuthorUsername(String authorUsername) {
         this.authorUsername = authorUsername;

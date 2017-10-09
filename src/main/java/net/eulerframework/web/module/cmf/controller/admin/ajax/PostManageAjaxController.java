@@ -29,7 +29,6 @@
  */
 package net.eulerframework.web.module.cmf.controller.admin.ajax;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +65,7 @@ public class PostManageAjaxController extends AjaxSupportWebController {
     @Resource PostService postService;
     @Resource ObjectMapper objectMapper;
     
-    private final static String EXTRA_DATA_PREFIX = "extra.";
+    private final static String EXTRA_DATA_PREFIX = "post.extra.";
     
     @RequestMapping(path = "savePost", method = RequestMethod.POST)
     public void savePostType(Post post) throws JsonProcessingException {
@@ -75,7 +74,7 @@ public class PostManageAjaxController extends AjaxSupportWebController {
         
         Set<Entry<String, String[]>> entry = params.entrySet();
         for(Entry<String, String[]> each : entry) {
-            System.out.println(each.getKey());
+//            System.out.println(each.getKey());
             if(each.getKey().startsWith(EXTRA_DATA_PREFIX)) {
                 String[] values = each.getValue();
                 extraData.put(each.getKey().substring(EXTRA_DATA_PREFIX.length()), 
@@ -84,11 +83,11 @@ public class PostManageAjaxController extends AjaxSupportWebController {
         }
         
 
-        Enumeration<String> a = this.getRequest().getParameterNames();
-        
-        while (a.hasMoreElements()) {
-            System.out.println(a.nextElement());
-        }
+//        Enumeration<String> a = this.getRequest().getParameterNames();
+//        
+//        while (a.hasMoreElements()) {
+//            System.out.println(a.nextElement());
+//        }
         
         if(!CollectionUtils.isEmpty(extraData)) {
             post.setExtraData(this.objectMapper.writeValueAsString(extraData));
