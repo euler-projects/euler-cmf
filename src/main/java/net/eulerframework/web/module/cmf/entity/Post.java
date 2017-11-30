@@ -252,7 +252,7 @@ public class Post extends UUIDEntity<Post> {
      */
     public String getThemePicturePath() {
         if(StringUtils.hasText(themePictureArchiedFileId)) {
-            return ServletUtils.getServletContext().getAttribute(EulerSysAttributes.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
+            return ServletUtils.getServletContext().getAttribute(EulerSysAttributes.IMAGE_DOWNLOAD_PATH_ATTR.value()) + "/"
                     + this.themePictureArchiedFileId;
         } else {
             return null;

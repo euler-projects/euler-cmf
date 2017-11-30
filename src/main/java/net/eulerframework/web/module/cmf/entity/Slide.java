@@ -126,7 +126,7 @@ public class Slide extends UUIDEntity<Slide> {
      */
     public String getImagePath() {
         if(StringUtils.hasText(fileId)) {
-            return ServletUtils.getServletContext().getAttribute(EulerSysAttributes.IMAGE_DOWNLOAD_PATH_ATTR) + "/"
+            return ServletUtils.getServletContext().getAttribute(EulerSysAttributes.IMAGE_DOWNLOAD_PATH_ATTR.value()) + "/"
                     + this.fileId;
         } else {
             return null;
