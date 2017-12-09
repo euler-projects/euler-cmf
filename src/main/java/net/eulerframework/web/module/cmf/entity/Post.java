@@ -40,12 +40,12 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.eulerframework.constant.EulerSysAttributes;
@@ -59,7 +59,7 @@ import net.eulerframework.web.util.ServletUtils;
 @Entity
 @Table(name="CMF_POST")
 public class Post extends UUIDEntity<Post> {
-    
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 文章类型
@@ -232,15 +232,6 @@ public class Post extends UUIDEntity<Post> {
         this.extraData = extraData;
     }
 
-    public Map<String, Object> getExtra() throws JsonParseException, JsonMappingException, IOException {
-        if(!StringUtils.hasText(this.getExtraData())) {
-            return null;
-        }
-        
-        JavaType extraType = this.objectMapper.getTypeFactory().constructMapLikeType(HashMap.class, String.class, Object.class);
-        return this.objectMapper.readValue(this.getExtraData(), extraType);
-    }
-
     /**
      * 文章题图相对于WEB根目录的路径，包含ContextPath，以/开头，并以文件的时间扩展名结尾
      * 
@@ -267,7 +258,22 @@ public class Post extends UUIDEntity<Post> {
     public void setAuthorUsername(String authorUsername) {
         this.authorUsername = authorUsername;
     }
+    
     public String getAuthorUsername() {
         return this.authorUsername;
+    }
+
+    public Map<String, Object> getExtra() {
+        if(!StringUtils.hasText(this.getExtraData())) {
+            return null;
+        }
+        
+        JavaType extraType = this.objectMapper.getTypeFactory().constructMapLikeType(HashMap.class, String.class, Object.class);
+        try {
+            return this.objectMapper.readValue(this.getExtraData(), extraType);
+        } catch (IOException e) {
+            this.logger.error("Some problem happened with the post extra data parsing, postId: " + this.getId());
+            return null;
+        }
     }
 }
