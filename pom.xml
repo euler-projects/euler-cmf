@@ -42,6 +42,11 @@
             <artifactId>euler-web-basic</artifactId>
             <version>${eulerframework.version}</version>
         </dependency>
+        <dependency>
+            <groupId>net.eulerframework</groupId>
+            <artifactId>euler-web-file</artifactId>
+            <version>${eulerframework.version}</version>
+        </dependency>
         
         <dependency>
             <groupId>net.eulerframework</groupId>

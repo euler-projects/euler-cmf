@@ -59,6 +59,8 @@ import net.eulerframework.web.util.ServletUtils;
 @Entity
 @Table(name="CMF_POST")
 public class Post extends UUIDEntity<Post> {
+
+    @Transient
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
