@@ -47,12 +47,12 @@ import net.eulerframework.web.module.cmf.service.PostService;
  */
 @JspController
 @RequestMapping("cms/post")
-public class PostWebController extends JspSupportWebController {
+public class PostJspController extends JspSupportWebController {
 
     @Resource
     private PostService postService;
 
-    public PostWebController() {
+    public PostJspController() {
         this.setWebControllerName("cms/post");
     }
 
