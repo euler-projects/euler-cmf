@@ -74,20 +74,12 @@ public class PostManageAjaxController extends AjaxSupportWebController {
         
         Set<Entry<String, String[]>> entry = params.entrySet();
         for(Entry<String, String[]> each : entry) {
-//            System.out.println(each.getKey());
             if(each.getKey().startsWith(EXTRA_DATA_PREFIX)) {
                 String[] values = each.getValue();
                 extraData.put(each.getKey().substring(EXTRA_DATA_PREFIX.length()), 
                         (values == null || values.length != 1) ? values : values[0]);
             }
         }
-        
-
-//        Enumeration<String> a = this.getRequest().getParameterNames();
-//        
-//        while (a.hasMoreElements()) {
-//            System.out.println(a.nextElement());
-//        }
         
         if(!CollectionUtils.isEmpty(extraData)) {
             post.setExtraData(this.objectMapper.writeValueAsString(extraData));

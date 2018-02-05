@@ -32,11 +32,17 @@ package net.eulerframework.web.module.cmf.entity;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -123,6 +129,13 @@ public class Post extends UUIDEntity<Post> {
      */
     @Column(name = "APPROVED", nullable = false)
     private Boolean approved;
+    /**
+     * 附件列表
+     */
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="POST_ID")
+    @OrderBy("index ASC")
+    private List<Attachment> attachments;
     /**
      * 附加数据,JSON格式(可选字段)
      */
@@ -223,6 +236,14 @@ public class Post extends UUIDEntity<Post> {
 
     public void setApproved(Boolean approved) {
         this.approved = approved;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     @JsonIgnore
