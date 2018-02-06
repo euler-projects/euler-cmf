@@ -46,6 +46,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -132,9 +134,10 @@ public class Post extends UUIDEntity<Post> {
     /**
      * 附件列表
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name="POST_ID")
-    @OrderBy("index ASC")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="POST_ID", referencedColumnName="ID")
+    @OrderBy("SHOW_ORDER ASC")
+    @Fetch(FetchMode.SELECT)
     private List<Attachment> attachments;
     /**
      * 附加数据,JSON格式(可选字段)
