@@ -42,7 +42,6 @@ import net.eulerframework.web.core.annotation.ApiEndpoint;
 import net.eulerframework.web.core.base.controller.AbstractApiEndpoint;
 import net.eulerframework.web.core.base.request.PageQueryRequest;
 import net.eulerframework.web.core.base.response.PageResponse;
-import net.eulerframework.web.module.authentication.util.SecurityTag;
 import net.eulerframework.web.module.cmf.config.CmfConfig;
 import net.eulerframework.web.module.cmf.entity.Post;
 import net.eulerframework.web.module.cmf.service.PostService;
@@ -59,13 +58,7 @@ public class PostApiEndpoint extends AbstractApiEndpoint {
 
     @RequestMapping("{postId}")
     public Post findPost(@PathVariable("postId") String postId) {
-        Post ret = this.postService.findPost(postId);
-        
-        if(ret != null) {
-            ret.setAuthorUsername(SecurityTag.userIdtoUserame(ret.getAuthorId()));
-        }
-        
-        return ret;
+        return this.postService.findPost(postId);
     }
 
     /**
@@ -102,8 +95,6 @@ public class PostApiEndpoint extends AbstractApiEndpoint {
         }
         
         List<Post> ret = this.postService.findPostsInOrder(type, year, this.getRequest().getLocale(), top, max);
-
-        ret.stream().forEach(row -> row.setAuthorUsername(SecurityTag.userIdtoUserame(row.getAuthorId())));
 
         this.eareaseContect(ret);
         

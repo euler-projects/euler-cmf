@@ -49,9 +49,11 @@ import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuse
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.core.base.service.impl.BaseService;
 import net.eulerframework.web.module.authentication.util.SecurityTag;
+import net.eulerframework.web.module.cmf.dao.PostAttachmentDao;
 import net.eulerframework.web.module.cmf.dao.PostDao;
 import net.eulerframework.web.module.cmf.dao.PostTypeDao;
 import net.eulerframework.web.module.cmf.entity.Post;
+import net.eulerframework.web.module.cmf.entity.PostAttachment;
 import net.eulerframework.web.module.cmf.entity.PostType;
 import net.eulerframework.web.module.cmf.exception.PostNotExistException;
 
@@ -65,6 +67,8 @@ public class PostService extends BaseService {
     @Resource PostTypeDao postTypeDao;
     
     @Resource PostDao postDao;
+    
+    @Resource PostAttachmentDao postAttachmentDao;
     
     /*
      * ===========================ADMIN=============================
@@ -142,6 +146,38 @@ public class PostService extends BaseService {
             post.setCreateDate(new Date());            
         }
         this.postDao.saveOrUpdate(post);
+        
+        if(!CollectionUtils.isEmpty(post.getAttachments())) {
+            for(PostAttachment each : post.getAttachments()) {
+                each.setPostId(post.getId());
+            }
+            this.postAttachmentDao.saveOrUpdateBatch(post.getAttachments());
+        }
+
+        PostAttachment tmp = new PostAttachment();
+        tmp.setPostId(post.getId());
+        List<PostAttachment> allPostAttachment = this.postAttachmentDao.queryByEntity(tmp);
+        
+        for(PostAttachment eachSavedAttach : allPostAttachment) {
+            boolean needDel = true;
+            for(PostAttachment eachAvailableAttach : post.getAttachments()) {
+                if(eachAvailableAttach.getId().equals(eachSavedAttach.getId())) {
+                    needDel = false;
+                    break;
+                }
+            }
+            if(needDel) {
+                this.postAttachmentDao.delete(eachSavedAttach);
+            }
+        }
+    }
+
+    /**
+     * 批量删除文章
+     * @param postId 待删除的文章id
+     */
+    public void deletePosts(String... postId) {
+        this.postDao.deleteByIds(postId);
     }
 
     /**
@@ -176,20 +212,10 @@ public class PostService extends BaseService {
         orders.add(Order.asc("order"));
         
         PageResponse<Post> ret = this.postDao.pageQuery(easyUiQueryReqeuset, criterions, orders);
-        
-        if(!CollectionUtils.isEmpty(ret.getRows())) {
-            ret.getRows().stream().forEach(row -> row.setAuthorUsername(SecurityTag.userIdtoUserame(row.getAuthorId())));
-        }
+
+        this.addPostInfo(ret.getRows());
         
         return ret;
-    }
-
-    /**
-     * 批量删除文章
-     * @param postId 待删除的文章id
-     */
-    public void deletePosts(String... postId) {
-        this.postDao.deleteByIds(postId);
     }
 
     /**
@@ -305,7 +331,16 @@ public class PostService extends BaseService {
      * @return 文章
      */
     public Post findPost(String id) {
-        return this.postDao.load(id);
+        return this.addPostInfo(this.postDao.load(id));
+    }
+    
+    /**
+     * 根据内容ID查询附件列表，按顺序返回
+     * @param postId 内容ID
+     * @return 附件列表
+     */
+    private List<PostAttachment> findPostAttachment(String postId) {
+        return this.postAttachmentDao.findPostAttachmentByPostId(postId);
     }
 
     /**
@@ -317,7 +352,7 @@ public class PostService extends BaseService {
      * @return 文章列表
      */
     public List<Post> findPostsInOrder(String type, String year, Locale locale, boolean onlyTop, int max) {
-        return this.postDao.findPostsInOrder(type, year, locale, false, onlyTop, true, max);
+        return this.addPostInfo(this.postDao.findPostsInOrder(type, year, locale, false, onlyTop, true, max));
     }
 
     /**
@@ -340,11 +375,28 @@ public class PostService extends BaseService {
         
         PageResponse<Post> ret = this.postDao.pageQuery(pageQueryRequest, null, orders);
         
-        if(!CollectionUtils.isEmpty(ret.getRows())) {
-            ret.getRows().stream().forEach(row -> row.setAuthorUsername(SecurityTag.userIdtoUserame(row.getAuthorId())));
-        }
+        this.addPostInfo(ret.getRows());
         
         return ret;
+    }
+    
+
+    private Post addPostInfo(Post post) {
+        if(post != null) {
+            post.setAuthorUsername(SecurityTag.userIdtoUserame(post.getAuthorId()));
+            post.setAttachments(this.findPostAttachment(post.getId()));
+        }
+        return post;
+    }
+    
+    private List<Post> addPostInfo(List<Post> posts) {
+        if(!CollectionUtils.isEmpty(posts)) {
+            posts.stream().forEach(post -> {
+                post.setAuthorUsername(SecurityTag.userIdtoUserame(post.getAuthorId()));
+                post.setAttachments(this.findPostAttachment(post.getId()));
+            });
+        }
+        return posts;
     }
 
 }

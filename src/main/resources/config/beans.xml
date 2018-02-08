@@ -26,4 +26,7 @@
     <bean id="postDao" class="net.eulerframework.web.module.cmf.dao.PostDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="postAttachmentDao" class="net.eulerframework.web.module.cmf.dao.PostAttachmentDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

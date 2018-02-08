@@ -24,63 +24,38 @@
  * For more information, please visit the following website
  * 
  * https://eulerproject.io
+ * https://github.com/euler-form/web-form
  * https://cfrost.net
  */
-package net.eulerframework.web.module.cmf.entity;
+package net.eulerframework.web.module.cmf.dao;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
 
-import net.eulerframework.web.core.base.entity.NonIDEntity;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.util.Assert;
+
+import net.eulerframework.web.core.base.dao.impl.hibernate5.BaseDao;
+import net.eulerframework.web.module.cmf.entity.PostAttachment;
 
 /**
  * @author cFrost
  *
  */
-@Entity
-@Table(name = "CMF_ATTACHMENT")
-public class Attachment extends NonIDEntity<Attachment, String> {
+public class PostAttachmentDao extends BaseDao<PostAttachment> {
 
-    @Id
-    @Column(name = "ID", length=36)
-    private String id;
-
-    @Column(name = "FILE_NAME", nullable = false)
-    private String fileName;
-
-    @Column(name = "SHOW_ORDER", nullable = false)
-    private Integer order;
-
-    @Override
-    public String getId() {
-        return this.id;
+    /**
+     * 根据内容ID查询附件列表，按顺序返回
+     * @param postId 内容ID
+     * @return 附件列表
+     */
+    public List<PostAttachment> findPostAttachmentByPostId(String postId) {
+        Assert.hasText(postId, "postId is null");
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(this.entityClass);
+        detachedCriteria.add(Restrictions.eq("postId", postId));
+        detachedCriteria.addOrder(Order.asc("order"));
+        return this.query(detachedCriteria);
     }
 
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
-    }
-
-    @Override
-    public int compareTo(Attachment o) {
-        return this.id.compareTo(o.id);
-    }
 }

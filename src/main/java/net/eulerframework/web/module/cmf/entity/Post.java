@@ -36,18 +36,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -134,11 +127,11 @@ public class Post extends UUIDEntity<Post> {
     /**
      * 附件列表
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="POST_ID", referencedColumnName="ID")
-    @OrderBy("SHOW_ORDER ASC")
-    @Fetch(FetchMode.SELECT)
-    private List<Attachment> attachments;
+//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "post")
+//    @OrderBy("SHOW_ORDER ASC")
+//    @Fetch(FetchMode.SELECT)
+    @Transient
+    private List<PostAttachment> postAttachments;
     /**
      * 附加数据,JSON格式(可选字段)
      */
@@ -241,12 +234,12 @@ public class Post extends UUIDEntity<Post> {
         this.approved = approved;
     }
 
-    public List<Attachment> getAttachments() {
-        return attachments;
+    public List<PostAttachment> getAttachments() {
+        return postAttachments;
     }
 
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
+    public void setAttachments(List<PostAttachment> postAttachments) {
+        this.postAttachments = postAttachments;
     }
 
     @JsonIgnore
