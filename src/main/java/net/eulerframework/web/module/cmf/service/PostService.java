@@ -177,6 +177,9 @@ public class PostService extends BaseService {
      * @param postId 待删除的文章id
      */
     public void deletePosts(String... postId) {
+        for(String each : postId) {
+            this.postAttachmentDao.deleteByPostId(each);
+        }
         this.postDao.deleteByIds(postId);
     }
 

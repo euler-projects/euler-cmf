@@ -31,6 +31,7 @@ package net.eulerframework.web.module.cmf.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -56,6 +57,18 @@ public class PostAttachmentDao extends BaseDao<PostAttachment> {
         detachedCriteria.add(Restrictions.eq("postId", postId));
         detachedCriteria.addOrder(Order.asc("order"));
         return this.query(detachedCriteria);
+    }
+
+    /**
+     * 删除某内容的所有附件
+     * @param postId 内容ID
+     */
+    public void deleteByPostId(String postId) {
+        Assert.hasText(postId, "postId is null");
+        String hql = "delete from PostAttachment a where a.postId = :postId";
+        Query query = this.getCurrentSession().createQuery(hql);
+        query.setString("postId", postId);
+        query.executeUpdate();
     }
 
 }
