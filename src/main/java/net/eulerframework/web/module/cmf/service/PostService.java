@@ -147,6 +147,8 @@ public class PostService extends BaseService {
         }
         this.postDao.saveOrUpdate(post);
         
+        this.postDao.flushSession();
+        
         if(!CollectionUtils.isEmpty(post.getAttachments())) {
             for(PostAttachment each : post.getAttachments()) {
                 each.setPostId(post.getId());
@@ -342,7 +344,7 @@ public class PostService extends BaseService {
      * @param postId 内容ID
      * @return 附件列表
      */
-    private List<PostAttachment> findPostAttachment(String postId) {
+    public List<PostAttachment> findPostAttachment(String postId) {
         return this.postAttachmentDao.findPostAttachmentByPostId(postId);
     }
 

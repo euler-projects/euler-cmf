@@ -51,6 +51,7 @@ import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuse
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.authentication.context.UserContext;
 import net.eulerframework.web.module.cmf.entity.Post;
+import net.eulerframework.web.module.cmf.entity.PostAttachment;
 import net.eulerframework.web.module.cmf.entity.PostType;
 import net.eulerframework.web.module.cmf.service.PostService;
 
@@ -66,6 +67,11 @@ public class PostManageAjaxController extends AjaxSupportWebController {
     @Resource ObjectMapper objectMapper;
     
     private final static String EXTRA_DATA_PREFIX = "post.extra.";
+    
+    @RequestMapping(path = "findPostAttachments", method = RequestMethod.GET)
+    public List<PostAttachment> findPostAttachments(@RequestParam String postId) {
+        return this.postService.findPostAttachment(postId);
+    }
     
     @RequestMapping(path = "savePost", method = RequestMethod.POST)
     public void savePostType(Post post) throws JsonProcessingException {
