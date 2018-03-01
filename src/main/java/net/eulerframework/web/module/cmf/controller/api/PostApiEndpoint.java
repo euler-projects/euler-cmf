@@ -44,7 +44,7 @@ import net.eulerframework.web.core.base.request.PageQueryRequest;
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.cmf.config.CmfConfig;
 import net.eulerframework.web.module.cmf.entity.Post;
-import net.eulerframework.web.module.cmf.service.PostService;
+import net.eulerframework.web.module.cmf.htservice.PostService;
 
 /**
  * @author cFrost

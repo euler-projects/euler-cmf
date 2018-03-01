@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import net.eulerframework.web.core.annotation.JspController;
 import net.eulerframework.web.core.base.controller.JspSupportWebController;
 import net.eulerframework.web.module.cmf.entity.Post;
-import net.eulerframework.web.module.cmf.service.PostService;
+import net.eulerframework.web.module.cmf.htservice.PostService;
 
 /**
  * @author cFrost

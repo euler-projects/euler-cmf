@@ -43,7 +43,7 @@ import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuse
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.cmf.entity.Slide;
 import net.eulerframework.web.module.cmf.entity.SlideType;
-import net.eulerframework.web.module.cmf.service.SlideService;
+import net.eulerframework.web.module.cmf.htservice.SlideService;
 
 /**
  * @author cFrost

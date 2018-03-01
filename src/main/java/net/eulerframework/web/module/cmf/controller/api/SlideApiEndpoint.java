@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import net.eulerframework.web.core.annotation.ApiEndpoint;
 import net.eulerframework.web.core.base.controller.AbstractApiEndpoint;
 import net.eulerframework.web.module.cmf.entity.Slide;
-import net.eulerframework.web.module.cmf.service.SlideService;
+import net.eulerframework.web.module.cmf.htservice.SlideService;
 
 /**
  * @author cFrost

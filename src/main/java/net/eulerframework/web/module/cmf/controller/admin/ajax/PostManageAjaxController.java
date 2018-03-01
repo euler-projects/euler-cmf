@@ -53,7 +53,7 @@ import net.eulerframework.web.module.authentication.context.UserContext;
 import net.eulerframework.web.module.cmf.entity.Post;
 import net.eulerframework.web.module.cmf.entity.PostAttachment;
 import net.eulerframework.web.module.cmf.entity.PostType;
-import net.eulerframework.web.module.cmf.service.PostService;
+import net.eulerframework.web.module.cmf.htservice.PostService;
 
 /**
  * @author cFrost
