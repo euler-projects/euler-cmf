@@ -37,11 +37,11 @@
             <artifactId>euler-web-authentication-impl-jpa</artifactId>
             <version>${eulerframework.version}</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>net.eulerframework</groupId>
             <artifactId>euler-web-basic</artifactId>
             <version>${eulerframework.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>net.eulerframework</groupId>
             <artifactId>euler-web-file</artifactId>
