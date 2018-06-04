@@ -51,7 +51,7 @@
         <dependency>
             <groupId>net.eulerframework</groupId>
             <artifactId>euler-web-ueditor</artifactId>
-            <version>0.0.1.M1-SNAPSHOT</version>
+            <version>1.0.0.M1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
