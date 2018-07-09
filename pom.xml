@@ -37,6 +37,11 @@
             <artifactId>euler-web-authentication-impl-jpa</artifactId>
             <version>${eulerframework.version}</version>
         </dependency>
+        <dependency>
+            <groupId>net.eulerframework</groupId>
+            <artifactId>euler-web-orm-hibernate</artifactId>
+            <version>${eulerframework.version}</version>
+        </dependency>
         <!-- <dependency>
             <groupId>net.eulerframework</groupId>
             <artifactId>euler-web-basic</artifactId>
