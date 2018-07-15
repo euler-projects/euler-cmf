@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.eulerframework.web.core.annotation.ApiEndpoint;
-import net.eulerframework.web.core.base.controller.AbstractApiEndpoint;
+import net.eulerframework.web.core.base.controller.ApiSupportWebController;
 import net.eulerframework.web.core.base.request.PageQueryRequest;
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.cmf.config.CmfConfig;
@@ -52,7 +52,7 @@ import net.eulerframework.web.module.cmf.htservice.PostService;
  */
 @ApiEndpoint
 @RequestMapping("cms/post")
-public class PostApiEndpoint extends AbstractApiEndpoint {
+public class PostApiEndpoint extends ApiSupportWebController {
     
     @Resource private PostService postService;
 

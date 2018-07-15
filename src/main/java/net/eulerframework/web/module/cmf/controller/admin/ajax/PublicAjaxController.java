@@ -38,7 +38,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import net.eulerframework.web.core.annotation.AjaxController;
-import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
+import net.eulerframework.web.core.base.controller.ApiSupportWebController;
 import net.eulerframework.web.module.cmf.config.CmfConfig;
 
 /**
@@ -47,7 +47,7 @@ import net.eulerframework.web.module.cmf.config.CmfConfig;
  */
 @AjaxController
 @RequestMapping("cms/public")
-public class PublicAjaxController extends AjaxSupportWebController {
+public class PublicAjaxController extends ApiSupportWebController {
     
     @RequestMapping(path = "findAllSupportLanguages", method = RequestMethod.GET)
     public Locale[] findAllSupportLanguages() {

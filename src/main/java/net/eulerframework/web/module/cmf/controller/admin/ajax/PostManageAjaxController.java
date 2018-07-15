@@ -46,7 +46,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.eulerframework.web.core.annotation.AjaxController;
-import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
+import net.eulerframework.web.core.base.controller.ApiSupportWebController;
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.authentication.context.UserContext;
@@ -61,7 +61,7 @@ import net.eulerframework.web.module.cmf.htservice.PostService;
  */
 @AjaxController
 @RequestMapping("cms/post")
-public class PostManageAjaxController extends AjaxSupportWebController {
+public class PostManageAjaxController extends ApiSupportWebController {
     
     @Resource PostService postService;
     @Resource ObjectMapper objectMapper;

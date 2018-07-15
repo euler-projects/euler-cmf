@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.eulerframework.web.core.annotation.AjaxController;
-import net.eulerframework.web.core.base.controller.AjaxSupportWebController;
+import net.eulerframework.web.core.base.controller.ApiSupportWebController;
 import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.cmf.entity.Slide;
@@ -51,7 +51,7 @@ import net.eulerframework.web.module.cmf.htservice.SlideService;
  */
 @AjaxController
 @RequestMapping("cms/slide")
-public class SlideManageAjaxController extends AjaxSupportWebController {
+public class SlideManageAjaxController extends ApiSupportWebController {
     
     @Resource SlideService slideService;
     
