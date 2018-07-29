@@ -25,7 +25,6 @@
  * 
  * https://eulerproject.io
  * https://github.com/euler-form/web-form
- * https://cfrost.net
  */
 package net.eulerframework.web.module.cmf.controller.admin;
 
