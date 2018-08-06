@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  * 
- * Copyright (c) 2013-2017 cFrost.sun(孙宾, SUN BIN) 
+ * Copyright (c) 2013-2018 Euler Project 
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
+import net.eulerframework.web.core.base.request.PageQueryRequest;
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.core.base.service.impl.BaseService;
 import net.eulerframework.web.module.cmf.dao.SlideDao;
@@ -68,11 +68,11 @@ public class SlideService extends BaseService {
 
     /**
      * 分页查询图片类型
-     * @param easyUiQueryReqeuset 分页请求
+     * @param pageQueryRequeset 分页请求
      * @return 分页响应
      */
-    public PageResponse<SlideType> findSlideTypeByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
-        return this.slideTypeDao.pageQuery(easyUiQueryReqeuset);
+    public PageResponse<SlideType> findSlideTypeByPage(PageQueryRequest pageQueryRequeset) {
+        return this.slideTypeDao.pageQuery(pageQueryRequeset);
     }
 
     /**
@@ -111,18 +111,18 @@ public class SlideService extends BaseService {
     }
 
     /**
-     * @param easyUiQueryReqeuset
+     * @param pageQueryRequeset
      * @return
      */
-    public PageResponse<Slide> findSlideByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
+    public PageResponse<Slide> findSlideByPage(PageQueryRequest pageQueryRequeset) {
         List<Criterion> criterions = new ArrayList<>();
         
-        String type = easyUiQueryReqeuset.getFilterValue("type");
+        String type = pageQueryRequeset.getFilterValue("type");
         if(StringUtils.hasText(type)) {
             criterions.add(Restrictions.eq("type", type));
         }
         
-        String locale = easyUiQueryReqeuset.getFilterValue("locale");
+        String locale = pageQueryRequeset.getFilterValue("locale");
         if(StringUtils.hasText(locale)) {
             criterions.add(Restrictions.eq("locale", new Locale(locale)));
         }
@@ -130,7 +130,7 @@ public class SlideService extends BaseService {
         List<Order> orders = new ArrayList<>();
         orders.add(Order.asc("order"));
         
-        return this.slideDao.pageQuery(easyUiQueryReqeuset, criterions, orders);
+        return this.slideDao.pageQuery(pageQueryRequeset, criterions, orders);
     }
 
     /**

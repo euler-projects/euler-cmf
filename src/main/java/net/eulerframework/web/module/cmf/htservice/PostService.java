@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  * 
- * Copyright (c) 2013-2017 cFrost.sun(孙宾, SUN BIN) 
+ * Copyright (c) 2013-2018 Euler Project 
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import net.eulerframework.web.core.base.request.PageQueryRequest;
-import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.core.base.service.impl.BaseService;
 import net.eulerframework.web.module.authentication.util.SecurityTag;
@@ -99,8 +98,8 @@ public class PostService extends BaseService {
      * @param easyUiQueryReqeuset 分页请求
      * @return 分页响应
      */
-    public PageResponse<PostType> findPostTypeByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
-        return this.postTypeDao.pageQuery(easyUiQueryReqeuset);
+    public PageResponse<PostType> findPostTypeByPage(PageQueryRequest pageQueryRequest) {
+        return this.postTypeDao.pageQuery(pageQueryRequest);
     }
 
     /**
@@ -185,28 +184,28 @@ public class PostService extends BaseService {
 
     /**
      * 分页查询文章
-     * @param easyUiQueryReqeuset 分页请求
+     * @param pageQueryRequest 分页请求
      * @return 分页响应
      */
-    public PageResponse<Post> findPostByPage(EasyUiQueryReqeuset easyUiQueryReqeuset) {
+    public PageResponse<Post> findPostByPage(PageQueryRequest pageQueryRequest) {
         List<Criterion> criterions = new ArrayList<>();
         
-        String type = easyUiQueryReqeuset.getFilterValue("type");
+        String type = pageQueryRequest.getFilterValue("type");
         if(StringUtils.hasText(type)) {
             criterions.add(Restrictions.eq("type", type));
         }
         
-        String locale = easyUiQueryReqeuset.getFilterValue("locale");
+        String locale = pageQueryRequest.getFilterValue("locale");
         if(StringUtils.hasText(locale)) {
             criterions.add(Restrictions.eq("locale", new Locale(locale)));
         }
         
-        String top = easyUiQueryReqeuset.getFilterValue("top");
+        String top = pageQueryRequest.getFilterValue("top");
         if(StringUtils.hasText(top)) {
             criterions.add(Restrictions.eq("top", Boolean.parseBoolean(top)));
         }
         
-        String approved = easyUiQueryReqeuset.getFilterValue("approved");
+        String approved = pageQueryRequest.getFilterValue("approved");
         if(StringUtils.hasText(approved)) {
             criterions.add(Restrictions.eq("approved", Boolean.parseBoolean(approved)));
         }
@@ -214,7 +213,7 @@ public class PostService extends BaseService {
         List<Order> orders = new ArrayList<>();
         orders.add(Order.asc("order"));
         
-        PageResponse<Post> ret = this.postDao.pageQuery(easyUiQueryReqeuset, criterions, orders);
+        PageResponse<Post> ret = this.postDao.pageQuery(pageQueryRequest, criterions, orders);
 
         this.addPostInfo(ret.getRows());
         
@@ -366,21 +365,6 @@ public class PostService extends BaseService {
      */
     public List<String> findPostsYears(String type, Locale locale) {
         return this.postDao.findPostsYears(type, locale);
-    }
-
-    /**
-     * @param pageQueryRequest
-     * @return
-     */
-    public PageResponse<Post> findPostByPage(PageQueryRequest pageQueryRequest) {        
-        List<Order> orders = new ArrayList<>();
-        orders.add(Order.asc("order"));
-        
-        PageResponse<Post> ret = this.postDao.pageQuery(pageQueryRequest, null, orders);
-        
-        this.addPostInfo(ret.getRows());
-        
-        return ret;
     }
     
 

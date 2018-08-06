@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  * 
- * Copyright (c) 2013-2017 cFrost.sun(孙宾, SUN BIN) 
+ * Copyright (c) 2013-2018 Euler Project 
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,7 +45,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.eulerframework.web.core.annotation.AjaxController;
 import net.eulerframework.web.core.base.controller.ApiSupportWebController;
-import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
+import net.eulerframework.web.core.base.request.PageQueryRequest;
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.authentication.context.UserContext;
 import net.eulerframework.web.module.cmf.entity.Post;
@@ -95,7 +95,11 @@ public class PostManageAjaxController extends ApiSupportWebController {
 
     @RequestMapping(path = "findPostByPage")
     public PageResponse<Post> findPostByPage(){
-        return this.postService.findPostByPage(new EasyUiQueryReqeuset(this.getRequest()));
+        return this.postService.findPostByPage(
+                new PageQueryRequest(
+                        this.getRequest(), 
+                        PageQueryRequest.EASYUI_PAGE_INDEX_NAME, 
+                        PageQueryRequest.EASYUI_PAGE_SIZE_NAME));
     }
     
     @RequestMapping(path = "deletePosts", method = RequestMethod.POST)
@@ -132,7 +136,11 @@ public class PostManageAjaxController extends ApiSupportWebController {
 
     @RequestMapping(path = "findPostTypeByPage")
     public PageResponse<PostType> findPostTypeByPage(){
-        return this.postService.findPostTypeByPage(new EasyUiQueryReqeuset(this.getRequest()));
+        return this.postService.findPostTypeByPage(
+                new PageQueryRequest(
+                        this.getRequest(), 
+                        PageQueryRequest.EASYUI_PAGE_INDEX_NAME, 
+                        PageQueryRequest.EASYUI_PAGE_SIZE_NAME));
     }
     
     @RequestMapping(path = "savePostType", method = RequestMethod.POST)

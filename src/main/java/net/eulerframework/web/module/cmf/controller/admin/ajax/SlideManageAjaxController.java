@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  * 
- * Copyright (c) 2013-2017 cFrost.sun(孙宾, SUN BIN) 
+ * Copyright (c) 2013-2018 Euler Project 
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import net.eulerframework.web.core.annotation.AjaxController;
 import net.eulerframework.web.core.base.controller.ApiSupportWebController;
-import net.eulerframework.web.core.base.request.easyuisupport.EasyUiQueryReqeuset;
+import net.eulerframework.web.core.base.request.PageQueryRequest;
 import net.eulerframework.web.core.base.response.PageResponse;
 import net.eulerframework.web.module.cmf.entity.Slide;
 import net.eulerframework.web.module.cmf.entity.SlideType;
@@ -60,7 +60,11 @@ public class SlideManageAjaxController extends ApiSupportWebController {
 
     @RequestMapping(path = "findSlideByPage")
     public PageResponse<Slide> findSlideByPage(){
-        return this.slideService.findSlideByPage(new EasyUiQueryReqeuset(this.getRequest()));
+        return this.slideService.findSlideByPage(
+                new PageQueryRequest(
+                        this.getRequest(), 
+                        PageQueryRequest.EASYUI_PAGE_INDEX_NAME, 
+                        PageQueryRequest.EASYUI_PAGE_SIZE_NAME));
     }
     
     @RequestMapping(path = "deleteSlides", method = RequestMethod.POST)
@@ -80,7 +84,11 @@ public class SlideManageAjaxController extends ApiSupportWebController {
 
     @RequestMapping(path = "findSlideTypeByPage")
     public PageResponse<SlideType> findSlideTypeByPage(){
-        return this.slideService.findSlideTypeByPage(new EasyUiQueryReqeuset(this.getRequest()));
+        return this.slideService.findSlideTypeByPage(
+                new PageQueryRequest(
+                    this.getRequest(), 
+                    PageQueryRequest.EASYUI_PAGE_INDEX_NAME, 
+                    PageQueryRequest.EASYUI_PAGE_SIZE_NAME));
     }
     
     @RequestMapping(path = "saveSlideType", method = RequestMethod.POST)
