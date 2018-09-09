@@ -5,7 +5,7 @@
     <parent>
         <groupId>net.eulerframework</groupId>
         <artifactId>euler-parent</artifactId>
-        <version>3</version>
+        <version>4-SNAPSHOT</version>
         <relativePath/>
     </parent>
     
@@ -16,7 +16,6 @@
     <description>A Content Management Framework Based on Euler Framework</description>
 
     <properties>
-        <jdk.version>1.8</jdk.version>
         <eulerframework.version>1.0.0.M2-SNAPSHOT</eulerframework.version>
     </properties>
      
@@ -59,20 +58,6 @@
             <version>1.0.0.M1-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <scm>
         <connection>scm:git:https://github.com/euler-projects/euler-cmf.git</connection>
