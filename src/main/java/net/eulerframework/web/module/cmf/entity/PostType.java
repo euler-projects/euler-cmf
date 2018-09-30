@@ -27,21 +27,21 @@ import net.eulerframework.web.core.base.entity.NonIDEntity;
  *
  */
 @Entity
-@Table(name="CMF_POST_TYPE")
+@Table(name="cmf_post_type")
 public class PostType extends NonIDEntity<PostType, String> {
 
     @Id
-    @Column(name = "TYPE")
+    @Column(name = "type")
     private String type;
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "DESCRIPTION", nullable = true, length = 1000)
+    @Column(name = "description", nullable = true, length = 1000)
     private String description;
-    @Column(name = "ENABLED", nullable = false)
+    @Column(name = "enabled", nullable = false)
     private Boolean enabled;
-    @Column(name = "ADMIN_PAGE_SUFFIX", nullable = false)
+    @Column(name = "admin_page_suffix", nullable = false)
     private String adminPageSuffix;
-    @Column(name = "VIEW_PAGE_SUFFIX", nullable = false)
+    @Column(name = "view_page_suffix", nullable = false)
     private String viewPageSuffix;
 
     public String getType() {

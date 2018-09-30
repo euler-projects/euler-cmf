@@ -27,17 +27,17 @@ import net.eulerframework.web.core.base.entity.NonIDEntity;
  *
  */
 @Entity
-@Table(name="CMF_SLIDE_TYPE")
+@Table(name="cmf_slide_type")
 public class SlideType extends NonIDEntity<SlideType, String> {
 
     @Id
-    @Column(name = "TYPE")
+    @Column(name = "type")
     private String type;
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "DESCRIPTION", nullable = true, length = 1000)
+    @Column(name = "description", nullable = true, length = 1000)
     private String description;
-    @Column(name = "ENABLED", nullable = false)
+    @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
     public String getType() {

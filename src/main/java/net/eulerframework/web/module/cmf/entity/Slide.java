@@ -32,24 +32,24 @@ import net.eulerframework.web.util.ServletUtils;
  *
  */
 @Entity
-@Table(name="CMF_SLIDE")
+@Table(name="cmf_slide")
 public class Slide extends UUIDEntity<Slide> {
 
-    @Column(name = "TYPE", nullable = false)
+    @Column(name = "type", nullable = false)
     private String type;
-    @Column(name = "LOCALE", nullable = false)
+    @Column(name = "locale", nullable = false)
     private Locale locale;
     @Column(name = "title", nullable = true)
     private String title;
-    @Column(name = "FILE_ID", nullable = false)
+    @Column(name = "file_id", nullable = false)
     private String fileId;
-    @Column(name = "URI", nullable = true)
+    @Column(name = "uri", nullable = true)
     private String uri;
-    @Column(name = "DESCRIPTION", nullable = true, length = 1000)
+    @Column(name = "description", nullable = true, length = 1000)
     private String description;
-    @Column(name = "CONTENT", nullable = true, length = 1000)
+    @Column(name = "content", nullable = true, length = 1000)
     private String content;
-    @Column(name = "SHOW_ORDER", nullable = false)
+    @Column(name = "show_order", nullable = false)
     private Integer order;
     public String getType() {
         return type;

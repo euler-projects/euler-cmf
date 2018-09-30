@@ -44,7 +44,7 @@ import net.eulerframework.web.util.ServletUtils;
  *
  */
 @Entity
-@Table(name="CMF_POST")
+@Table(name="cmf_post")
 public class Post extends UUIDEntity<Post> {
 
     @Transient
@@ -53,75 +53,75 @@ public class Post extends UUIDEntity<Post> {
     /**
      * 文章类型
      */
-    @Column(name = "TYPE", nullable = false)
+    @Column(name = "type", nullable = false)
     private String type;
     /**
      * 文章语言
      */
-    @Column(name = "LOCALE", nullable = false)
+    @Column(name = "locale", nullable = false)
     private Locale locale;
     /**
      * 文章标题
      */
-    @Column(name = "TITLE", nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
     /**
      * 文章题图归档文件名(可选字段,归档文件名即文档文件ID)
      */
-    @Column(name = "THEME_PIC_AF_ID", nullable = true, length = 36)
+    @Column(name = "theme_pic_af_id", nullable = true, length = 36)
     private String themePictureArchiedFileId;
     /**
      * 文章作者ID
      */
-    @Column(name = "AUTHOR_ID", nullable = false, length = 36)
+    @Column(name = "author_id", nullable = false, length = 36)
     private String authorId;
     /**
      * 文章创建时间
      */
-    @Column(name = "CREATE_DATE", nullable = false)
+    @Column(name = "create_date", nullable = false)
     private Date createDate;
     /**
      * 文章更新时间(发布时间)
      */
-    @Column(name = "UPDATE_DATE", nullable = false)
+    @Column(name = "update_date", nullable = false)
     private Date updateDate;
     /**
      * 文章摘要(可选字段)
      */
-    @Column(name = "EXCERPT", nullable = true)
+    @Column(name = "excerpt", nullable = true)
     private String excerpt;
     /**
      * 文章正文(可选字段)
      */
-    @Column(name = "CONTENT", nullable = true, length = Integer.MAX_VALUE)
+    @Column(name = "content", nullable = true, length = Integer.MAX_VALUE)
     private String content;
     /**
      * 文章显示顺序
      */
-    @Column(name = "SHOW_ORDER", nullable = false)
+    @Column(name = "show_order", nullable = false)
     private Integer order;
     /**
      * 是否置顶
      */
-    @Column(name = "IS_TOP", nullable = false)
+    @Column(name = "is_top", nullable = false)
     private Boolean top;
     /**
      * 审核通过
      */
-    @Column(name = "APPROVED", nullable = false)
+    @Column(name = "approved", nullable = false)
     private Boolean approved;
     /**
      * 附件列表
      */
 //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "post")
-//    @OrderBy("SHOW_ORDER ASC")
+//    @OrderBy("show_order ASC")
 //    @Fetch(FetchMode.SELECT)
     @Transient
     private List<PostAttachment> postAttachments;
     /**
      * 附加数据,JSON格式(可选字段)
      */
-    @Column(name = "EXTRA_DATA", nullable = true, length = Integer.MAX_VALUE)
+    @Column(name = "extra_data", nullable = true, length = Integer.MAX_VALUE)
     private String extraData;
     
     public String getType() {

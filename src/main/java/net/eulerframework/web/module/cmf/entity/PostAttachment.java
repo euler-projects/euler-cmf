@@ -26,24 +26,24 @@ import net.eulerframework.web.core.base.entity.UUIDEntity;
  *
  */
 @Entity
-@Table(name = "CMF_POST_ATTACH")
+@Table(name = "cmf_post_attach")
 public class PostAttachment extends UUIDEntity<PostAttachment> {
 
-    @Column(name = "FILE_ID", length=36)
+    @Column(name = "file_id", length=36)
     private String fileId;
 
-    @Column(name = "POST_ID", length=36, nullable = false)
+    @Column(name = "post_id", length=36, nullable = false)
     private String postId;
 
 //    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name="POST_ID", referencedColumnName="ID", nullable = false)
+//    @JoinColumn(name="post_id", referencedColumnName="id", nullable = false)
 //    @JsonIgnore
 //    private Post post;
 
-    @Column(name = "FILE_NAME", nullable = false)
+    @Column(name = "file_name", nullable = false)
     private String fileName;
 
-    @Column(name = "SHOW_ORDER", nullable = false)
+    @Column(name = "show_order", nullable = false)
     private Integer order;
 
     /**
