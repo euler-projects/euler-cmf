@@ -49,10 +49,7 @@ public class SlideManageAjaxController extends ApiSupportWebController {
     @RequestMapping(path = "findSlideByPage")
     public PageResponse<Slide> findSlideByPage(){
         return this.slideService.findSlideByPage(
-                new PageQueryRequest(
-                        this.getRequest(), 
-                        PageQueryRequest.EASYUI_PAGE_INDEX_NAME, 
-                        PageQueryRequest.EASYUI_PAGE_SIZE_NAME));
+                new PageQueryRequest(this.getRequest()));
     }
     
     @RequestMapping(path = "deleteSlides", method = RequestMethod.POST)
@@ -73,10 +70,7 @@ public class SlideManageAjaxController extends ApiSupportWebController {
     @RequestMapping(path = "findSlideTypeByPage")
     public PageResponse<SlideType> findSlideTypeByPage(){
         return this.slideService.findSlideTypeByPage(
-                new PageQueryRequest(
-                    this.getRequest(), 
-                    PageQueryRequest.EASYUI_PAGE_INDEX_NAME, 
-                    PageQueryRequest.EASYUI_PAGE_SIZE_NAME));
+                new PageQueryRequest(this.getRequest()));
     }
     
     @RequestMapping(path = "saveSlideType", method = RequestMethod.POST)

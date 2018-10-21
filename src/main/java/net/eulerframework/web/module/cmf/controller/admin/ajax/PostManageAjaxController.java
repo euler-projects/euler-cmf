@@ -84,10 +84,7 @@ public class PostManageAjaxController extends ApiSupportWebController {
     @RequestMapping(path = "findPostByPage")
     public PageResponse<Post> findPostByPage(){
         return this.postService.findPostByPage(
-                new PageQueryRequest(
-                        this.getRequest(), 
-                        PageQueryRequest.EASYUI_PAGE_INDEX_NAME, 
-                        PageQueryRequest.EASYUI_PAGE_SIZE_NAME));
+                new PageQueryRequest(this.getRequest()));
     }
     
     @RequestMapping(path = "deletePosts", method = RequestMethod.POST)
@@ -125,10 +122,7 @@ public class PostManageAjaxController extends ApiSupportWebController {
     @RequestMapping(path = "findPostTypeByPage")
     public PageResponse<PostType> findPostTypeByPage(){
         return this.postService.findPostTypeByPage(
-                new PageQueryRequest(
-                        this.getRequest(), 
-                        PageQueryRequest.EASYUI_PAGE_INDEX_NAME, 
-                        PageQueryRequest.EASYUI_PAGE_SIZE_NAME));
+                new PageQueryRequest(this.getRequest()));
     }
     
     @RequestMapping(path = "savePostType", method = RequestMethod.POST)
