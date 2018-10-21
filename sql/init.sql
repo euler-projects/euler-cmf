@@ -1,7 +1,7 @@
 -- 图片类型表
 CREATE TABLE cmf_slide_type
 (
-  type        VARCHAR(255)  NOT NULL PRIMARY KEY,
+  type        VARCHAR(100)  NOT NULL PRIMARY KEY,
   name        VARCHAR(255)  NOT NULL,
   description VARCHAR(1000) NULL,
   enabled     BIT           NOT NULL
@@ -32,7 +32,7 @@ CREATE TABLE cmf_slide
 -- 内容类型表
 CREATE TABLE cmf_post_type
 (
-  type              VARCHAR(255)  NOT NULL PRIMARY KEY,
+  type              VARCHAR(100)  NOT NULL PRIMARY KEY,
   name              VARCHAR(255)  NOT NULL,
   description       VARCHAR(1000) NULL,
   admin_page_suffix VARCHAR(255)  NOT NULL,
