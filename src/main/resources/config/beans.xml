@@ -13,20 +13,20 @@
            http://www.springframework.org/schema/tx 
            http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-    <bean id="slideTypeDao" class="net.eulerframework.web.module.cmf.dao.SlideTypeDao">
+    <bean id="slideTypeDao" class="org.eulerframework.web.module.cmf.dao.SlideTypeDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    <bean id="slideDao" class="net.eulerframework.web.module.cmf.dao.SlideDao">
+    <bean id="slideDao" class="org.eulerframework.web.module.cmf.dao.SlideDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="postTypeDao" class="net.eulerframework.web.module.cmf.dao.PostTypeDao">
+    <bean id="postTypeDao" class="org.eulerframework.web.module.cmf.dao.PostTypeDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    <bean id="postDao" class="net.eulerframework.web.module.cmf.dao.PostDao">
+    <bean id="postDao" class="org.eulerframework.web.module.cmf.dao.PostDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    <bean id="postAttachmentDao" class="net.eulerframework.web.module.cmf.dao.PostAttachmentDao">
+    <bean id="postAttachmentDao" class="org.eulerframework.web.module.cmf.dao.PostAttachmentDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 </beans>
