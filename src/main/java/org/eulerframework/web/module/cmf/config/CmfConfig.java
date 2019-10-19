@@ -15,8 +15,11 @@
  */
 package org.eulerframework.web.module.cmf.config;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Locale;
 
+import org.eulerframework.common.util.property.FilePropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +35,15 @@ public abstract class CmfConfig {
     private static final DefaultObjectCache<String, Object> CONFIG_CAHCE = ObjectCachePool
             .generateDefaultObjectCache(Long.MAX_VALUE);
 
-    private static final PropertyReader properties = new PropertyReader("/config-cmf.properties");
+    private static final PropertyReader properties;
+
+    static {
+        try {
+            properties = new PropertyReader(new FilePropertySource("/config-cmf.properties"));
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private static class CmfConfigKey {
        private final static String SUPPORT_LANGUAGES = "supportLanguages";
@@ -48,11 +59,6 @@ public abstract class CmfConfig {
         private final static int POST_QUERY_LIMIT_DEFAULT = 20;
         private final static int POST_QUERY_LIMIT_MIN = 1;
         private final static int POST_QUERY_LIMIT_MAX = 100;
-    }
-
-    public static boolean clearSecurityConfigCache() {
-        properties.refresh();
-        return CONFIG_CAHCE.clear();
     }
 
     public static Locale[] getSupportLanguages() {
