@@ -64,7 +64,7 @@ public abstract class CmfConfig {
     public static Locale[] getSupportLanguages() {
         return (Locale[]) CONFIG_CAHCE.get(CmfConfigKey.SUPPORT_LANGUAGES, key -> {
             try {
-                String supportLanguagesStr = properties.get(key);
+                String supportLanguagesStr = properties.getString(key);
                 String[] supportLanguagesStrArray = supportLanguagesStr.split(",");
                 Locale[] ret = new Locale[supportLanguagesStrArray.length];
                 
